@@ -5,6 +5,8 @@ class Ocamlgraph < Formula
   url 'http://ocamlgraph.lri.fr/download/ocamlgraph-1.8.2.tar.gz'
   sha1 'ff864aaae11f7355685f37815194ca58d3fcac01'
 
+  option 'with-doc', 'Install documentations'
+
   depends_on 'objective-caml'
   depends_on 'lablgtk2'
 
@@ -14,7 +16,9 @@ class Ocamlgraph < Formula
 
     system "./configure --prefix=#{prefix}"
     system "make"
+    system "make doc" if build.include? 'with-doc'
     system "make install OCAMLLIB=#{prefix_stdlib}"
     cp "META", "#{prefix_stdlib}/ocamlgraph"
+    doc.install (Dir.glob "doc/*")
   end
 end
