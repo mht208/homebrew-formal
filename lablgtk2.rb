@@ -1,7 +1,7 @@
 require 'formula'
 
 class Lablgtk2 < Formula
-  homepage 'wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html'
+  homepage 'http://forge.ocamlcore.org/projects/lablgtk/'
   url 'https://forge.ocamlcore.org/frs/download.php/979/lablgtk-2.16.0.tar.gz'
   sha1 '3dec411a410fbb38d6e2e5a43a4ebfb2e407e7e6'
 
@@ -9,6 +9,10 @@ class Lablgtk2 < Formula
   option 'with-rsvg', 'Build with librsvg support'
   option 'with-gnomecanvas', 'Build with libgnomecanvas support'
   option 'with-gtksourceview2', 'Build with gtksourceview2 support'
+
+  # This formula should conflict with lablgtk in the official Homebrew
+  # repository.
+  conflicts_with 'lablgtk'
 
   depends_on 'pkg-config' => :build
   depends_on :x11
