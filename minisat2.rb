@@ -6,9 +6,11 @@ class Minisat2 < Formula
   sha1 'cb4a58f8a8192a65b1b944c4307afdf029d51e1c'
 
   def install
-    Dir.chdir 'simp' do
-      system "make r CXX=g++"
+    Dir.chdir 'core' do
+      system "make r lib CXX=g++"
       bin.install 'minisat_release' => 'minisat2'
+      lib.install 'libminisat.a' => 'libminisat2.a'
     end
+    (include/'minisat2').install Dir['mtl/*.h'], 'core/Solver.h'
   end
 end
