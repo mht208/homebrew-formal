@@ -14,8 +14,10 @@ class Minisat2 < Formula
       bin.install 'minisat_release' => 'minisat2'
       lib.install 'libminisat.a' => 'libminisat2.a'
     end
-    (include/'minisat2/core').install 'core/Solver.h'
-    (include/'minisat2/mtl').install Dir['mtl/*.h']
-    (include/'minisat2/simp').install 'simp/SimpSolver.h'
+    (include/'minisat2').install 'core/Solver.h', 'core/SolverTypes.h',
+                                 Dir['mtl/*.h'], 'simp/SimpSolver.h'
+    ln_s include/'minisat2', include/'minisat2/core'
+    ln_s include/'minisat2', include/'minisat2/mtl'
+    ln_s include/'minisat2', include/'minisat2/simp'
   end
 end
