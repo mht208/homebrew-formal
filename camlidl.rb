@@ -6,6 +6,7 @@ class Camlidl < Formula
   sha1 '2a0d5ba70fea8c1de1c5387f8b2058357b2177df'
 
   depends_on 'objective-caml'
+  depends_on 'besport/ocaml/ocaml-pcre'
 
   def install
     homebrew_prefix_stdlib = `ocamlc -where`.gsub /\n/, ""
