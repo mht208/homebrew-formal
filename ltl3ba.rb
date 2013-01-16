@@ -2,8 +2,8 @@ require 'formula'
 
 class Ltl3ba < Formula
   homepage 'http://sourceforge.net/projects/ltl3ba/'
-  url 'http://sourceforge.net/projects/ltl3ba/files/ltl3ba/1.0/ltl3ba-1.0.1.tar.gz'
-  sha1 'b12a1f70d0cddb3e27e1eab05afda0f4d01282e8'
+  url 'http://sourceforge.net/projects/ltl3ba/files/ltl3ba/1.0/ltl3ba-1.0.2.tar.gz'
+  sha1 'd6a745a7c2712f7cc88ffc4f96b9574692e6fd47'
 
   depends_on 'buddy'
 
