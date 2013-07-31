@@ -5,9 +5,7 @@ class Aiger < Formula
   url 'http://fmv.jku.at/aiger/aiger-1.9.4.tar.gz'
   sha1 '635a8d6745f12d8e7f471c61e5121f040d8443f0'
 
-  option 'with-picosat', 'Install with picosat'
-
-  depends_on 'picosat' if build.include? 'with-picosat'
+  depends_on 'picosat'
 
   def patches
     DATA
@@ -17,7 +15,7 @@ class Aiger < Formula
     system "./configure"
     system "make"
     bin.install "aigand"
-    bin.install "aigbmc" if build.include? 'with-picosat'
+    bin.install "aigbmc"
     bin.install "aigdd"
     bin.install "aigflip"
     bin.install "aigfuzz"
@@ -42,6 +40,20 @@ class Aiger < Formula
     bin.install "smvtoaig"
     bin.install "soltostim"
     bin.install "wrapstim"
+
+    system "ar rcs libaiger.a aigand.o aigbmc.o aigdd.o aiger.o aigflip.o aigfuzz.o aigfuzzlayers.o aiginfo.o aigjoin.o aigmiter.o aigmove.o aignm.o aigor.o aigsim.o aigsplit.o aigstrip.o aigtoaig.o aigtoblif.o aigtocnf.o aigtodot.o aigtosmv.o aigunroll.o andtoaig.o bliftoaig.o simpaig.o smvtoaig.o soltostim.o wrapstim.o"
+    lib.install "libaiger.a"
+    include.install "aiger.h", "aigfuzz.h", "simpaig.h"      
+    (share/'aiger').install "aigand.o", "aigbmc.o", "aigdd.o", "aiger.o", "aigflip.o", "aigfuzz.o", "aigfuzzlayers.o", "aiginfo.o", "aigjoin.o", "aigmiter.o", "aigmove.o", "aignm.o", "aigor.o", "aigsim.o", "aigsplit.o", "aigstrip.o", "aigtoaig.o", "aigtoblif.o", "aigtocnf.o", "aigtodot.o", "aigtosmv.o", "aigunroll.o", "andtoaig.o", "bliftoaig.o", "simpaig.o", "smvtoaig.o", "soltostim.o", "wrapstim.o"
+    File.symlink((include/'aiger.h'), (share/'aiger/aiger.h'))
+    File.symlink((include/'aigfuzz.h'), (share/'aiger/aigfuzz.h'))
+    File.symlink((include/'simpaig.h'), (share/'aiger/simpaig.h'))
+    ohai <<-EOS.undent
+    The library file (libaiger.a) and the header files have been respectively installed to
+    /usr/local/lib and /usr/local/include. Since some tools from the FMV group requires
+    object files, the object files along with the header files have been install to
+    /usr/local/share/aiger.
+    EOS
   end
 
 end
