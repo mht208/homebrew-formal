@@ -2,8 +2,8 @@ require 'formula'
 
 class Picosat < Formula
   homepage 'http://fmv.jku.at/picosat/'
-  url 'http://fmv.jku.at/picosat/picosat-951.tar.gz'
-  sha1 '92319ba08e58e7637b4535197d2c1ba54e486083'
+  url 'http://fmv.jku.at/picosat/picosat-957.tar.gz'
+  sha1 '8d99711eb7864cd0292702aa70be7dbf530a1b3d'
 
   def patches
     # Fix the dynamic shared library.
@@ -35,10 +35,10 @@ index ca5ec77..fe9e162 100755
  fi
  echo "targets ... $TARGETS"
 diff --git a/makefile.in b/makefile.in
-index 6621bb8..211031a 100644
+index 2eb0af2..76ffa05 100644
 --- a/makefile.in
 +++ b/makefile.in
-@@ -49,8 +49,7 @@ libpicosat.a: picosat.o version.o
+@@ -52,8 +52,7 @@ libpicosat.a: picosat.o version.o
  	ar rc $@ picosat.o version.o
  	ranlib $@
  
