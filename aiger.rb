@@ -5,7 +5,8 @@ class Aiger < Formula
   url 'http://fmv.jku.at/aiger/aiger-1.9.4.tar.gz'
   sha1 '635a8d6745f12d8e7f471c61e5121f040d8443f0'
 
-  depends_on 'picosat'
+  # aiger-1.9.4 is not compatible with picosat-957
+  depends_on 'picosat-951'
 
   def patches
     DATA
@@ -69,7 +70,7 @@ index 33b68cb..9f9baaf 100644
  
  #include "aiger.h"
 -#include "../picosat/picosat.h"
-+#include "/usr/local/include/picosat.h"
++#include "/usr/local/include/picosat-951/picosat.h"
  
  #include <assert.h>
  #include <ctype.h>
@@ -82,13 +83,13 @@ index 0c36e77..08ff760 100755
    message "using custom compilation flags"
  fi
 -if [ -d ../picosat ]
-+if [ -d /usr/local/opt/picosat ]
++if [ -d /usr/local/opt/picosat-951 ]
  then
 -  if [ -f ../picosat/picosat.h ]
-+  if [ -f /usr/local/include/picosat.h ]
++  if [ -f /usr/local/include/picosat-951/picosat.h ]
    then
 -    if [ -f ../picosat/picosat.o ]
-+    if [ -f /usr/local/lib/libpicosat.a ]
++    if [ -f /usr/local/lib/picosat-951/libpicosat.a ]
      then
        AIGBMCTARGET="aigbmc"
 -      message "using 'picosat.h' and 'picosat.o' in '../picosat/' for 'aigbmc'"
@@ -96,15 +97,15 @@ index 0c36e77..08ff760 100755
      else
      warning \
 -      "can not find '../picosat/picosat.o' object file (no 'aigbmc' target)"
-+      "can not find '/usr/local/lib/libpicosat.a' object file (no 'aigbmc' target)"
++      "can not find '/usr/local/lib/picosat-951/libpicosat.a' object file (no 'aigbmc' target)"
      fi
    else
 -    warning "can not find '../picosat/picosat.h' header (no 'aigbmc' target)"
-+    warning "can not find '/usr/local/include/picosat.h' header (no 'aigbmc' target)"
++    warning "can not find '/usr/local/include/picosat-951/picosat.h' header (no 'aigbmc' target)"
    fi
  else
 -  warning "can not find '../picosat' directory (no 'aigbmc' target)"
-+  warning "can not find '/usr/local/opt/picosat' directory (no 'aigbmc' target)"
++  warning "can not find '/usr/local/opt/picosat-951' directory (no 'aigbmc' target)"
  fi
  message "compiling with: $CC $CFLAGS"
  rm -f makefile
@@ -118,8 +119,8 @@ index 8aa0f3a..b676b63 100644
  	$(CC) $(CFLAGS) -o $@ aigand.o aiger.o
 -aigbmc: aiger.o aigbmc.o makefile ../picosat/picosat.o
 -	$(CC) $(CFLAGS) -o $@ aigbmc.o aiger.o ../picosat/picosat.o
-+aigbmc: aiger.o aigbmc.o makefile /usr/local/lib/libpicosat.a
-+	$(CC) $(CFLAGS) -o $@ aigbmc.o aiger.o /usr/local/lib/libpicosat.a
++aigbmc: aiger.o aigbmc.o makefile /usr/local/lib/picosat-951/libpicosat.a
++	$(CC) $(CFLAGS) -o $@ aigbmc.o aiger.o /usr/local/lib/picosat-951/libpicosat.a
  aigdd: aiger.o aigdd.o makefile
  	$(CC) $(CFLAGS) -o $@ aigdd.o aiger.o
  aigflip: aiger.o aigflip.o makefile
@@ -128,7 +129,7 @@ index 8aa0f3a..b676b63 100644
  
  aigand.o: aiger.h aigand.c makefile
 -aigbmc.o: aiger.h aigbmc.c makefile ../picosat/picosat.h
-+aigbmc.o: aiger.h aigbmc.c makefile /usr/local/include/picosat.h
++aigbmc.o: aiger.h aigbmc.c makefile /usr/local/include/picosat-951/picosat.h
  aigdd.o: aiger.h aigdd.c makefile
  aiger.o: aiger.h aiger.c makefile
  aigflip.o: aiger.h aigflip.c makefile
