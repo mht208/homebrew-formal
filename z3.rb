@@ -1,31 +1,36 @@
 require 'formula'
 
 class Z3 < Formula
-  homepage 'http://research.microsoft.com/en-us/um/redmond/projects/z3/'
-  url 'http://research.microsoft.com/en-us/um/redmond/projects/z3/z3-osx-4.1-x64.tar.gz'
-  version '4.1'
+  homepage 'http://z3.codeplex.com'
+  url 'https://git01.codeplex.com/z3', :tag => 'v4.3.1', :using => :git
   sha1 '80d68d08e15ec40ba314c226f065b2def550fca4'
 
-  option 'with-ocaml', 'Build OCaml libraries'
-
-  if build.include? 'with-ocaml'
-    depends_on 'objective-caml'
-    depends_on 'camlidl'
-  end
+  depends_on 'autoconf' => :build
+  depends_on :python
 
   def install
-    if build.include? 'with-ocaml'
-      homebrew_prefix_stdlib = `ocamlc -where`.gsub /\n/, ""
-      prefix_stdlib = homebrew_prefix_stdlib.gsub HOMEBREW_PREFIX, prefix
-      Dir.chdir 'ocaml' do
-        system "./build-lib.sh #{homebrew_prefix_stdlib}"
-        mkdir_p "#{prefix_stdlib}/z3"
-        cp %w(libz3stubs.a z3.a z3.cmi z3.cmx z3.cmxa z3.mli), "#{prefix_stdlib}/z3"
-      end
+    # Although /usr/bin/c++ is a symbolic link to /usr/bin/clang++, it seems that Z3
+    # does not like the name c++.
+    ENV['CXX'] = "clang++"
+
+    inreplace "scripts/mk_util.py", "distutils.sysconfig.get_python_lib()", "'#{python.site_packages}'"
+    system "autoconf"
+    system "./configure --prefix=#{prefix}"
+    system python, "scripts/mk_make.py"
+    mkdir_p "#{python.site_packages}"
+    Dir.chdir "build" do
+      system "make"
+      system "make PREFIX=#{prefix} install"
     end
-    bin.install "bin/z3"
-    (include/'z3').install (Dir.glob "include/*.h")
-    lib.install (Dir.glob "lib/libz3*")
-    (share/'z3').install ["examples", "python"]
+
+    ohai "Linking python bindings"
+    Dir["#{python.site_packages}/*.pyc"].each do |f|
+      path = python.global_site_packages/(Pathname.new(f).basename)
+      puts path
+      rm path if path.exist?
+      ln_s f, path
+    end
+    puts "#{python.global_site_packages}/libz3.dylib"
+    ln_s "#{python.site_packages}/libz3.dylib", "#{python.global_site_packages}/libz3.dylib"
   end
 end
