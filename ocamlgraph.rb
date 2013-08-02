@@ -2,8 +2,8 @@ require 'formula'
 
 class Ocamlgraph < Formula
   homepage 'http://ocamlgraph.lri.fr'
-  url 'http://ocamlgraph.lri.fr/download/ocamlgraph-1.8.2.tar.gz'
-  sha1 'ff864aaae11f7355685f37815194ca58d3fcac01'
+  url 'http://ocamlgraph.lri.fr/download/ocamlgraph-1.8.3.tar.gz'
+  sha1 'd10c60d33ffcdcd2fbcf7dfb9dc9ff4b754a52e0'
 
   option 'with-opt', 'Build native binaries and libraries'
   option 'with-doc', 'Install documentations'
