@@ -2,8 +2,8 @@ require 'formula'
 
 class Spot < Formula
   homepage 'http://spot.lip6.fr/'
-  url 'http://spot.lip6.fr/dl/spot-1.1.1.tar.gz'
-  sha1 'b7a49be5af18e8bbc34cd5c96c83b7282fe6aa4d'
+  url 'http://spot.lip6.fr/dl/spot-1.1.4.tar.gz'
+  sha1 'fb026fe131fdec1bd486a12da540414591a1f190'
 
   def install
     # Since Spot uses modified Buddy and Lbtt, we build statically linked Spot.
