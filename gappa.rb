@@ -2,8 +2,8 @@ require 'formula'
 
 class Gappa < Formula
   homepage 'http://gappa.gforge.inria.fr'
-  url 'https://gforge.inria.fr/frs/download.php/31075/gappa-0.16.1.tar.gz'
-  sha1 'ba268f24552dfc3fdca06948765c834ba93c8a27'
+  url 'https://gforge.inria.fr/frs/download.php/32744/gappa-1.0.0.tar.gz'
+  sha1 'e2d5fd30f4523b124c3ed2cf5219d54d99f27b29'
 
   depends_on "gmp"
   depends_on "mpfr"
@@ -11,9 +11,8 @@ class Gappa < Formula
 
   def install
     ENV['CXX'] = "g++"
-    system "./configure", "--disable-debug", "--disable-dependency-tracking",
-                          "--prefix=#{prefix}"
-    system "make"
-    system "make install"
+    system "./configure"
+    system "./remake"
+    bin.install 'src/gappa'
   end
 end
