@@ -24,6 +24,8 @@ class Abc < Formula
   def install
     system "make"
     bin.install "abc"
+    (share/'abc/scripts').install "abc.rc"
+    ohai "The abc resource file has been installed to #{share}/abc/scripts/abc.rc. You may create a symbolic link ~/.abc.rc to the resource file such that alias commands can be used."
   end
 
 end
