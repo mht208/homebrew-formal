@@ -2,8 +2,8 @@ require 'formula'
 
 class Why3 < Formula
   homepage 'http://why3.lri.fr'
-  url 'https://gforge.inria.fr/frs/download.php/31257/why3-0.73.tar.gz'
-  sha1 '846021eb4a6b4e70c20902594a6399dcc3c026ce'
+  url 'http://why3.lri.fr/download/why3-0.82.tar.gz'
+  sha1 '40a08a204e3d947ac46253121b9f6ed7ff3efdfa'
 
   option 'without-native', 'Build without the native OCaml compiler'
   option 'with-doc', 'Install documentations'
