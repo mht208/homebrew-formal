@@ -2,8 +2,8 @@ require 'formula'
 
 class Princess < Formula
   homepage 'http://www.philipp.ruemmer.org/princess.shtml'
-  url 'http://www.philipp.ruemmer.org/princess/princess-2013-04-21.tar.gz'
-  sha1 'fe4180fe5fa332fbc213e11ccf414e6367527867'
+  url 'http://www.philipp.ruemmer.org/princess/princess-2013-09-06.tar.gz'
+  sha1 '78fc049a782bf724307ab3fab7072c3523e02de9'
 
   depends_on 'scala'
 
