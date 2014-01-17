@@ -13,7 +13,7 @@ class Why3 < Formula
 
   depends_on 'objective-caml'
   depends_on 'coq' if build.include? 'with-coq-libs' or build.include? 'with-coq-tactics'
-  depends_on 'lablgtk2' if build.include? 'with-ide'
+  depends_on 'lablgtk2' => 'with-gtksourceview2' if build.include? 'with-ide'
 
   def install
     homebrew_prefix_stdlib = `ocamlc -where`.gsub /\n/, ""
