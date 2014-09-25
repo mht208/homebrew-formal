@@ -29,5 +29,14 @@ class Lean < Formula
       system "make"
       system "make install"
     end
+
+    (share/"lean").install "library"
+  end
+
+  def caveats
+    <<-EOS.undent
+      Before running lean, execute the following command:
+        export LEAN_PATH=#{prefix}/share/lean/library
+    EOS
   end
 end
