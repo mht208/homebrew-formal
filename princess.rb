@@ -2,23 +2,18 @@ require 'formula'
 
 class Princess < Formula
   homepage 'http://www.philipp.ruemmer.org/princess.shtml'
-  url 'http://www.philipp.ruemmer.org/princess/princess-2013-09-06.tar.gz'
-  sha1 '78fc049a782bf724307ab3fab7072c3523e02de9'
+  url 'http://www.philipp.ruemmer.org/princess/princess-2014-08-27.tar.gz'
+  sha1 '2a2533b9da3775a7762ad5340ca6982f60c09e96'
 
   depends_on 'scala'
 
-  def patches
-    DATA
-  end
+  patch :DATA
 
   def install
     system "curl", "http://www2.cs.tum.edu/projects/cup/java-cup-11a.jar", "-o", "extlibs/java-cup-11a.jar"
     system "make"
-    bins0 = ["princessBench"]
-    bins1 = ["princess", "princessDist", "princessGui", "princessGuiDist"]
-    bins2 = ["werePrincess", "werePrincessDist"]
-    bins = [].concat(bins0).concat(bins1).concat(bins2)
 
+    bins = ["princessBench", "princess", "princessGui", "werePrincess"]
     (share/"princess").install bins
     bin.mkdir
     bins.each do |file|
@@ -28,12 +23,13 @@ class Princess < Formula
     (share/"princess"/"parser").install "parser/parser.jar"
     (share/"princess"/"smt-parser").install "smt-parser/smt-parser.jar"
     (share/"princess").install "extlibs"
+    (share/"princess").install "wolverine_resources"
   end
 end
 
 __END__
 diff --git a/princess b/princess
-index 2ab1109..14ecc9d 100755
+index 134b22a..a9a2f29 100755
 --- a/princess
 +++ b/princess
 @@ -1,6 +1,7 @@
@@ -46,7 +42,7 @@ index 2ab1109..14ecc9d 100755
  
  export CLASSPATH=$CLASSPATH:$BASEDIR/bin:$BASEDIR/smt-parser/smt-parser.jar:$BASEDIR/parser/parser.jar:$EXTLIBSDIR/java-cup-11a.jar
 diff --git a/princessBench b/princessBench
-index 0a906b9..a3c4a32 100755
+index 0a906b9..ded9155 100755
 --- a/princessBench
 +++ b/princessBench
 @@ -1,6 +1,7 @@
@@ -58,21 +54,8 @@ index 0a906b9..a3c4a32 100755
  EXTLIBSDIR=$BASEDIR/extlibs
  
  export CLASSPATH=$CLASSPATH:$BASEDIR/bin:$BASEDIR/parser/parser.jar:$EXTLIBSDIR/java-cup-11a.jar
-diff --git a/princessDist b/princessDist
-index 410dfff..cea2b9e 100755
---- a/princessDist
-+++ b/princessDist
-@@ -1,6 +1,7 @@
- #!/bin/sh
- 
--BASEDIR=`dirname $(readlink -e $0)`
-+BASEDIR=`dirname $0`/`readlink $0`
-+BASEDIR=`dirname $(readlink $BASEDIR)`
- 
- export CLASSPATH=$CLASSPATH:$BASEDIR/dist/princess-all.jar
- 
 diff --git a/princessGui b/princessGui
-index c83344e..dc2c148 100755
+index 969ba9b..f086ebd 100755
 --- a/princessGui
 +++ b/princessGui
 @@ -1,6 +1,7 @@
@@ -84,45 +67,46 @@ index c83344e..dc2c148 100755
  EXTLIBSDIR=$BASEDIR/extlibs
  
  export CLASSPATH=$CLASSPATH:$BASEDIR/bin:$BASEDIR/parser/parser.jar:$BASEDIR/smt-parser/smt-parser.jar:$EXTLIBSDIR/java-cup-11a.jar
-diff --git a/princessGuiDist b/princessGuiDist
-index 1644f47..25480b9 100755
---- a/princessGuiDist
-+++ b/princessGuiDist
-@@ -1,6 +1,7 @@
- #!/bin/sh
+diff --git a/runTests b/runTests
+index 18fb9c6..3878627 100755
+--- a/runTests
++++ b/runTests
+@@ -2,7 +2,8 @@
  
--BASEDIR=`dirname $(readlink -e $0)`
+ echo -n "Running unit tests "
+ 
+-BASEDIR=`dirname $0`
 +BASEDIR=`dirname $0`/`readlink $0`
 +BASEDIR=`dirname $(readlink $BASEDIR)`
- 
- export CLASSPATH=$CLASSPATH:$BASEDIR/dist/princess-all.jar
- 
-diff --git a/werePrincess b/werePrincess
-index 968ece2..1f2ef75 100755
---- a/werePrincess
-+++ b/werePrincess
-@@ -1,7 +1,7 @@
- #!/bin/sh
- 
--ABSEXECUTABLE=`readlink -m $0`
--BASEDIR=`dirname $ABSEXECUTABLE`
-+ABSEXECUTABLE=`dirname $0`/`readlink $0`
-+BASEDIR=`dirname $(readlink $ABSEXECUTABLE)`
  EXTLIBSDIR=$BASEDIR/extlibs
  
  export CLASSPATH=$CLASSPATH:$BASEDIR/bin:$BASEDIR/parser/parser.jar:$EXTLIBSDIR/java-cup-11a.jar
-diff --git a/werePrincessDist b/werePrincessDist
-index 82385c5..ece86b8 100755
---- a/werePrincessDist
-+++ b/werePrincessDist
-@@ -1,7 +1,7 @@
+@@ -13,4 +14,4 @@ scala ap.AllTests "$@"
+ echo "Running regression tests"
+ 
+ cd $BASEDIR/testcases
+-./runalldirs
+\ No newline at end of file
++./runalldirs
+diff --git a/werePrincess b/werePrincess
+index 1d3ccf0..4b6e906 100755
+--- a/werePrincess
++++ b/werePrincess
+@@ -1,14 +1,7 @@
  #!/bin/sh
  
--ABSEXECUTABLE=`readlink -m $0`
--BASEDIR=`dirname $ABSEXECUTABLE`
-+ABSEXECUTABLE=`dirname $0`/`readlink $0`
-+BASEDIR=`dirname $(readlink $ABSEXECUTABLE)`
+-if [ $(uname) = "Linux" ]; then
+-    pathCmd="readlink -f"
+-elif [ $(uname) = "Darwin" ]; then
+-    pathCmd="stat -f %N"
+-else
+-    pathCmd="realpath"
+-fi
+-
+-BASEDIR=`dirname $($pathCmd $0)`
++BASEDIR=`dirname $0`/`readlink $0`
++BASEDIR=`dirname $(readlink $BASEDIR)`
+ EXTLIBSDIR=$BASEDIR/extlibs
  
- export CLASSPATH=$CLASSPATH:$BASEDIR/dist/princess-all.jar
- 
+ export CLASSPATH=$CLASSPATH:$BASEDIR/bin:$BASEDIR/parser/parser.jar:$EXTLIBSDIR/java-cup-11a.jar
 
