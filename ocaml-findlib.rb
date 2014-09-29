@@ -2,8 +2,8 @@ require 'formula'
 
 class OcamlFindlib < Formula
   homepage 'http://projects.camlcity.org/projects/findlib.html'
-  url 'http://download.camlcity.org/download/findlib-1.4.tar.gz'
-  sha1 '07048076758e4ca892f06ff535d7cab033833bde'
+  url 'http://download.camlcity.org/download/findlib-1.5.3.tar.gz'
+  sha1 'd0d0d80f7ad0f4fa102b3d7454178fb7445af173'
 
   depends_on 'objective-caml'
 
