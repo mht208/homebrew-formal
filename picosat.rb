@@ -2,8 +2,8 @@ require 'formula'
 
 class Picosat < Formula
   homepage 'http://fmv.jku.at/picosat/'
-  url 'http://fmv.jku.at/picosat/picosat-957.tar.gz'
-  sha1 '8d99711eb7864cd0292702aa70be7dbf530a1b3d'
+  url 'http://fmv.jku.at/picosat/picosat-960.tar.gz'
+  sha1 '6ed37fa8ba4fb11808f7d638173cbe0adecf00b7'
 
   def patches
     # Fix the dynamic shared library.
@@ -49,4 +49,3 @@ index 2eb0af2..76ffa05 100644
 +	$(CC) $(CFLAGS) -shared -install_name $@ -o $@ picosat.o version.o
  
  .PHONY: all clean
-
