@@ -5,7 +5,7 @@ class Minisat2 < Formula
   url 'http://minisat.se/downloads/minisat-2.2.0.tar.gz'
   sha1 'dfc25898bf40e00cf04252a42176e0c0600fbc90'
 
-  option 'with-simp', 'Build with simplification capabilities'
+  option 'without-simp', 'Build without simplification capabilities'
 
   def patches
     # Fix friend functions with default arguments and add the missing memUsedPeak for Mac OS
@@ -13,18 +13,19 @@ class Minisat2 < Formula
   end
 
   def install
-    d = (build.with? 'simp') ? 'simp' : 'core'
+    d = (build.without? 'simp') ? 'core' : 'simp'
     Dir.chdir d do
-      system "make r libr MROOT=../"
-      bin.install 'minisat_release' => 'minisat2'
-      lib.install 'lib_release.a' => 'libminisat2.a'
+      system "LIB=minisat make r libr libsh MROOT=../"
+      bin.install 'minisat_release' => 'minisat'
+      lib.install 'libminisat_release.a' => 'libminisat.a'
+      lib.install 'libminisat.dylib'
     end
-    (include/'minisat2').install Dir['core/*.h'], Dir['mtl/*.h'],
-                                 Dir['simp/*.h'], Dir['utils/*.h']
-    ln_s include/'minisat2', include/'minisat2/core'
-    ln_s include/'minisat2', include/'minisat2/mtl'
-    ln_s include/'minisat2', include/'minisat2/simp'
-    ln_s include/'minisat2', include/'minisat2/utils'
+    (include/'minisat').install Dir['core/*.h'], Dir['mtl/*.h'],
+                                Dir['simp/*.h'], Dir['utils/*.h']
+    ln_s include/'minisat', include/'minisat/core'
+    ln_s include/'minisat', include/'minisat/mtl'
+    ln_s include/'minisat', include/'minisat/simp'
+    ln_s include/'minisat', include/'minisat/utils'
   end
 end
 
@@ -72,4 +73,35 @@ index a7cf53f..ca5fee2 100644
  #else
  double Minisat::memUsed() { 
      return 0; }
+diff --git a/mtl/template.mk b/mtl/template.mk
+index 3f443fc..2d30a41 100644
+--- a/mtl/template.mk
++++ b/mtl/template.mk
+@@ -39,6 +39,7 @@ libs:	lib$(LIB)_standard.a
+ libp:	lib$(LIB)_profile.a
+ libd:	lib$(LIB)_debug.a
+ libr:	lib$(LIB)_release.a
++libsh:  lib$(LIB).dylib
+ 
+ ## Compile options
+ %.o:			CFLAGS +=$(COPTIMIZE) -g -D DEBUG
+@@ -64,7 +65,7 @@ lib$(LIB)_standard.a:	$(filter-out */Main.o,  $(COBJS))
+ lib$(LIB)_profile.a:	$(filter-out */Main.op, $(PCOBJS))
+ lib$(LIB)_debug.a:	$(filter-out */Main.od, $(DCOBJS))
+ lib$(LIB)_release.a:	$(filter-out */Main.or, $(RCOBJS))
+-
++lib$(LIB).dylib:        $(filter-out */Main.or, $(RCOBJS))
+ 
+ ## Build rule
+ %.o %.op %.od %.or:	%.cc
+@@ -81,6 +82,9 @@ lib$(LIB)_standard.a lib$(LIB)_profile.a lib$(LIB)_release.a lib$(LIB)_debug.a:
+ 	@echo Making library: "$@ ( $(foreach f,$^,$(subst $(MROOT)/,,$f)) )"
+ 	@$(AR) -rcsv $@ $^
+ 
++lib$(LIB).dylib:
++	$(CXX) $(LFLAGS) -o $@ -shared -Wl -install_name $@ -o $@ $^
++
+ ## Library Soft Link rule:
+ libs libp libd libr:
+ 	@echo "Making Soft Link: $^ -> lib$(LIB).a"
 
