@@ -2,17 +2,23 @@ require 'formula'
 
 class Lingeling < Formula
   homepage 'http://fmv.jku.at/lingeling/'
-  url 'http://fmv.jku.at/lingeling/lingeling-al6-080d45d-120922.tar.gz'
-  sha1 '1cc73193396309c6e7b020c59d9c51d9f0a7264d'
+  url 'http://fmv.jku.at/lingeling/lingeling-ayv-86bf266-140429.zip'
+  sha1 '5e564942791159f833fc6c98dcae1864b2a3f617'
 
-  depends_on 'aiger'
+  option 'with-variants', 'Install other variants as well'
+
+  depends_on 'lingeling-druplig' if build.with? 'variants'
+  depends_on 'plingeling' if build.with? 'variants'
+  depends_on 'treengeling' if build.with? 'variants'
 
   def install
-    system "./configure --aiger=/usr/local/share/aiger"
-    system "make"
-    bin.install "blimc", "ilingeling", "lingeling", "plingeling"
-    lib.install "liblgl.a"
-    include.install "lglib.h"
+    Dir.chdir 'code' do
+      system "./configure.sh -O"
+      system "make lingeling"
+      bin.install "lingeling"
+      lib.install "liblgl.a"
+      (include/'lingeling').install "lgldimacs.h", "lglib.h"
+    end
   end
 
 end
