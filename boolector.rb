@@ -19,16 +19,25 @@ class Boolector < Formula
 
   depends_on 'minisat2' => :recommended
   depends_on 'picosat' => :recommended
+  depends_on :python => :optional
+  depends_on 'Cython' => :python if build.with? 'python'
 
   patch :DATA
 
   def install
+    pyver = `python --version 2>&1 | awk '{print $2}'`.chomp.gsub(/([0-9]+).([0-9]+).([0-9]+)/, '\1.\2')
+    pylocal = lib/"python#{pyver}/site-packages"
+
+    # Compile lingeling.
     Dir.chdir 'lingeling' do
       system "./configure.sh"
       system "make"
     end
+
+    # Compile Boolector.
     Dir.chdir 'boolector' do
       args = ['-static']
+      args << ((build.with? 'python') ? '-python' : '')
       args << ((build.without? 'minisat2') ? '--no-minisat' : '--minisat')
       args << ((build.without? 'picosat') ? '--no-picosat' : '--picosat')
       system "./configure", *args
@@ -36,9 +45,19 @@ class Boolector < Formula
       system "make deltabtor"
       system "make libboolector.dylib"
     end
-    bin.install "boolector/boolector", "boolector/deltabtor", "boolector/synthebtor"
-    lib.install "boolector/libboolector.a", "boolector/libboolector.dylib"
-    (include/'boolector').install Dir['boolector/*.h']
+
+    # Install.
+    Dir.chdir 'boolector' do
+      bin.install "boolector", "deltabtor", "synthebtor"
+      lib.install "libboolector.a", "libboolector.dylib"
+      (include/'boolector').install Dir['*.h']
+      (share/'boolector').install 'doc', 'examples'
+      if build.with? 'python'
+        (share/'boolector').install 'api/python/api_usage_examples.py'
+        pylocal.install Dir['build/**/boolector.o'], 'api/python/boolector.pyx',
+                        'api/python/btorapi.pxd'
+      end
+    end
   end
 
 end
