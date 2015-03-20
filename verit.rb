@@ -19,28 +19,27 @@ end
 
 class Verit < Formula
   homepage 'http://www.verit-solver.org'
-  url 'http://www.verit-solver.org/distrib/veriT-201107.tar.gz'
-  sha1 '9e555fd04ca2cd43afb76056cd802b34e51ff695'
+  url 'http://www.verit-solver.org/distrib/veriT-201410.tar.gz'
+  sha1 '65322d264a42975af88d59b4abf07bf8f8cab372'
 
   option 'with-doc', 'Install documentations'
-  option 'with-proof', 'Build with proof production support'
+  option 'without-proof', 'Build without proof production support'
 
-  if build.include? 'with-doc'
+  depends_on 'wget'
+
+  if build.with? 'doc'
     depends_on 'doxygen'
     depends_on TexInstalled.new
     env :userpaths
   end
 
   def install
-    ENV['CC'] = 'gcc'
-    ENV.j1
-
-    inreplace 'Makefile.config', /PROOF_PRODUCTION = NO/, 'PROOF_PRODUCTION = YES'
+    inreplace 'Makefile.config', /PROOF_PRODUCTION = YES/, 'PROOF_PRODUCTION = NO' if not build.with? 'proof'
     system "make"
 
     bin.install "veriT"
-    if build.include? 'with-doc'
-      system "make documentation"
+    if build.with? 'doc'
+      system "make doc"
       system "make -C doc/user/veriT/latex"
       system "make -C doc/user/libveriT/latex"
 
