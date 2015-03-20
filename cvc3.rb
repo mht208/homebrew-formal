@@ -16,13 +16,19 @@ class Cvc3 < Formula
   #depends_on :python
   depends_on 'gmp' if build.include? 'with-gmp'
 
+  patch :DATA
+
+  fails_with :llvm do
+  end
+
+  fails_with :clang do
+  end
+
   def install
     if build.include? 'with-static' and build.include? 'with-java'
       fail 'The Java interface requires a dynamic library build.'
     end
 
-    ENV['CXX'] = 'g++'
-    ENV.O2
     args = ["--prefix=#{prefix}"]
     args << ((build.include? 'with-zchaff') ? '--enable-zchaff' : '--disable-zchaff')
     args << ((build.include? 'with-gmp') ? '--with-arith=gmp' : '--with-arith=native')
@@ -37,3 +43,18 @@ class Cvc3 < Formula
     system "make install" # if this fails, try separate make/make install steps
   end
 end
+
+__END__
+diff --git a/src/util/rational-native.cpp b/src/util/rational-native.cpp
+index 082132b..aa0bae7 100644
+--- a/src/util/rational-native.cpp
++++ b/src/util/rational-native.cpp
+@@ -27,6 +27,7 @@
+ // For atol() (ASCII to long)
+ #include <stdlib.h>
+ #include <limits.h>
++#include <limits>
+ #include <errno.h>
+ #include <sstream>
+ #include <math.h>
+
