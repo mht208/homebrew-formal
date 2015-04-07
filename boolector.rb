@@ -5,22 +5,28 @@ class BoolectorDownloadStrategy < CurlDownloadStrategy
   def stage
     super_stage
     # Unarchive boolector and lingeling.
-    system "tar xf archives/lingeling*.tar.gz"
-    system "mv lingeling* lingeling"
-    system "tar xf archives/boolector*.tar.gz"
-    system "mv boolector* boolector"
+    `tar xf archives/lingeling*.tar.gz`
+    `mv lingeling* lingeling`
+    `tar xf archives/boolector*.tar.gz`
+    `mv boolector* boolector`
   end
 end
 
 class Boolector < Formula
   homepage 'http://fmv.jku.at/boolector/'
-  url 'http://fmv.jku.at/boolector/boolector-2.0.0-with-lingeling-azd.tar.bz2', :using => BoolectorDownloadStrategy
-  sha1 '8a3672712703716acf13af931357f566749595a6'
+  url 'http://fmv.jku.at/boolector/boolector-2.0.6-with-lingeling-azd.tar.bz2', :using => BoolectorDownloadStrategy
+  sha1 '111b91823e254ecac6cf0b9d20732b0b209850c3'
+
+  option 'with-yalsat', 'Build with yalsat in plingeling'
+  option 'with-druplig', 'Build with lingeling-druplig'
+  option 'with-python', 'Build with python api (not working)'
 
   depends_on 'minisat2' => :recommended
   depends_on 'picosat' => :recommended
   depends_on :python => :optional
   depends_on 'Cython' => :python if build.with? 'python'
+  depends_on 'plingeling' if build.with? 'yalsat'
+  depends_on 'lingeling-druplig' if build.with? 'druplig'
 
   patch :DATA
 
@@ -50,7 +56,7 @@ class Boolector < Formula
     Dir.chdir 'boolector' do
       bin.install "boolector", "deltabtor", "synthebtor"
       lib.install "libboolector.a", "libboolector.dylib"
-      (include/'boolector').install Dir['*.h']
+      include.install Dir['*.h'], 'api/python/boolector_py.h'
       (share/'boolector').install 'doc', 'examples'
       if build.with? 'python'
         (share/'boolector').install 'api/python/api_usage_examples.py'
