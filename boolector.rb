@@ -56,10 +56,11 @@ class Boolector < Formula
     Dir.chdir 'boolector' do
       bin.install "boolector", "deltabtor", "synthebtor"
       lib.install "libboolector.a", "libboolector.dylib"
-      include.install Dir['*.h'], 'api/python/boolector_py.h'
+      (include/'boolector').install Dir['*.h']
       (share/'boolector').install 'doc', 'examples'
       if build.with? 'python'
         (share/'boolector').install 'api/python/api_usage_examples.py'
+        (include/'boolector').install 'api/python/boolector_py.h'
         pylocal.install Dir['build/**/boolector.o'], 'api/python/boolector.pyx',
                         'api/python/btorapi.pxd'
       end
