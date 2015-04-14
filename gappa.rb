@@ -2,8 +2,8 @@ require 'formula'
 
 class Gappa < Formula
   homepage 'http://gappa.gforge.inria.fr'
-  url 'https://gforge.inria.fr/frs/download.php/33486/gappa-1.1.1.tar.gz'
-  sha1 'e50552a0578e0b4e73241c59c457fd4c416870ef'
+  url 'https://gforge.inria.fr/frs/download.php/file/34154/gappa-1.1.2.tar.gz'
+  sha1 'd70776005d96d6ba06c8a98c6dcecb32424805d6'
 
   depends_on "gmp"
   depends_on "mpfr"
