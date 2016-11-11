@@ -3,7 +3,7 @@ require 'formula'
 class Gappa < Formula
   homepage 'http://gappa.gforge.inria.fr'
   url 'https://gforge.inria.fr/frs/download.php/file/34154/gappa-1.1.2.tar.gz'
-  sha1 'd70776005d96d6ba06c8a98c6dcecb32424805d6'
+  sha256 '597f58d38ffb0c025352763a387425242723045f398ab2ad65d6f5f61b13681a'
 
   depends_on "gmp"
   depends_on "mpfr"

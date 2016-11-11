@@ -3,7 +3,7 @@ require 'formula'
 class Liblangen < Formula
   homepage 'http://libalf.informatik.rwth-aachen.de/index.php'
   url 'http://libalf.informatik.rwth-aachen.de/files/liblangen-v0.3.tar.bz2'
-  sha1 'edec5006523c4e7aa54e37c930e98d95f274ee04'
+  sha256 'accf4baa423721e84c5825f610213c70c9ac85583503d76bd12c84810ba87aca'
 
   patch :DATA
 

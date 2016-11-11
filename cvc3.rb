@@ -3,7 +3,7 @@ require 'formula'
 class Cvc3 < Formula
   homepage 'http://www.cs.nyu.edu/acsys/cvc3/'
   url 'http://www.cs.nyu.edu/acsys/cvc3/releases/2.4.1/cvc3-2.4.1.tar.gz'
-  sha1 'b694d65234fe1119d86f3c6f53318b09f0ad68fe'
+  sha256 'd55b1d6006cfbac3f6d4c086964558902c3ed0efa66ac499cfb2193f3ee4acf7'
 
   option 'with-zchaff', 'Build with zChaff'
   option 'with-gmp', 'Build with GMP'

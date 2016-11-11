@@ -3,7 +3,7 @@ require 'formula'
 class Libalf < Formula
   homepage 'http://libalf.informatik.rwth-aachen.de/index.php'
   url 'http://libalf.informatik.rwth-aachen.de/files/libalf-v0.3.tar.bz2'
-  sha1 'beebc4e19f3a485e2173dbb7f13a402c3d379e36'
+  sha256 'd26bf6b0e9cd3900db00a2ef2c0a669bf87de67293d4ededc292aeccfe6632f7'
 
   depends_on 'gcc'
 

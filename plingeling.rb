@@ -3,7 +3,7 @@ require 'formula'
 class Plingeling < Formula
   homepage 'http://fmv.jku.at/lingeling/'
   url 'http://fmv.jku.at/lingeling/plingeling-ayv-86bf266-140429.zip'
-  sha1 '338ede2f8f9365b039051fa032feb585810a98fc'
+  sha256 'f6ad07da90ebedad6cbff7ed6aa3986820abd6486968fa43b2e516c88e56f01c'
 
   def install
     Dir.chdir 'code/yalsat' do

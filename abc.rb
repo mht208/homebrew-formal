@@ -13,7 +13,7 @@ class Abc < Formula
   homepage 'http://www.eecs.berkeley.edu/~alanmi/abc/'
   url 'https://bitbucket.org/alanmi/abc/get/5f4f701.tar.gz', :using => AbcDownloadStrategy
   version '5f4f701'
-  sha1 'e8a73787da783c87b6b8558b9e3409ce0adc1f73'
+  sha256 '12a024909ede1cd47492b1811d672ca4a23de81711916a7ccad01afc8dc669e9'
 
   depends_on 'dos2unix'
 

@@ -3,7 +3,7 @@ require 'formula'
 class Otags < Formula
   homepage 'http://askra.de/software/otags/'
   url 'http://askra.de/software/otags/otags-4.01.1.tar.gz'
-  sha1 'e22fa1171f1d458da04338e2a2ec70cffae4236c'
+  sha256 '424f753187fc53557bcc78ad1586e92d64def4af9a31e21db87da559836f6a66'
 
   depends_on 'objective-caml'
 

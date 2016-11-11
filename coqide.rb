@@ -3,7 +3,7 @@ require 'formula'
 class Coqide < Formula
   homepage 'http://coq.inria.fr/'
   url 'http://coq.inria.fr/distrib/V8.4/files/coq-8.4.tar.gz'
-  sha1 '2987aa418dd96a0df7284afe296293cb28814ef5'
+  sha256 'f46ae5b6f0bea9dc299de6f3c020ee75c40581e32a1832e9a290d098a6a2424d'
 
   option 'with-opt', 'Build native binaries'
 

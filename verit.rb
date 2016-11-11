@@ -20,7 +20,7 @@ end
 class Verit < Formula
   homepage 'http://www.verit-solver.org'
   url 'http://www.verit-solver.org/distrib/veriT-201410.tar.gz'
-  sha1 '65322d264a42975af88d59b4abf07bf8f8cab372'
+  sha256 '43158c2053b25e84b70942f5788b42d5883650a723a97965026b58c907cd612c'
 
   option 'with-doc', 'Install documentations'
   option 'without-proof', 'Build without proof production support'

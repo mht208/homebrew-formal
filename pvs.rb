@@ -20,7 +20,7 @@ class Pvs < Formula
   homepage 'http://pvs.csl.sri.com'
   url 'http://pvs.csl.sri.com/pvs-5.0.tgz',
       :using => PVSDownloadStrategy
-  sha1 '441e0c8fad5ad5b25edbeedee2f5f33300065d3c'
+  sha256 '04c22567871b5cdeeda4ecf02dc14efb69c6fa28435328abb29a1f8083a5c30d'
 
   def install
     (share/'pvs').install (Dir.glob "*")

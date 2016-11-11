@@ -3,7 +3,7 @@ require 'formula'
 class Ounit < Formula
   homepage 'http://ounit.forge.ocamlcore.org'
   url 'http://forge.ocamlcore.org/frs/download.php/1258/ounit-2.0.0.tar.gz'
-  sha1 '28e558f810611acb49eac8920fa354997d3db6f5'
+  sha256 '4d4a05b20c39c60d7486fb7a90eb4c5c08e8c9862360b5938b97a09e9bd21d85'
 
   depends_on 'objective-caml'
   depends_on 'ocaml-findlib'

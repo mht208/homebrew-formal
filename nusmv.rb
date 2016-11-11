@@ -3,7 +3,7 @@ require 'formula'
 class Nusmv < Formula
   homepage 'http://nusmv.fbk.eu'
   url 'http://nusmv.fbk.eu/distrib/NuSMV-2.5.4.tar.gz'
-  sha1 '968798a95eac0127e3324dd2dc05bc0ff3ccf2fd'
+  sha256 '3c250624cba801b1f62f50733f9507b0f3b3ca557ce1cd65956178eb273f1bdf'
 
   option 'with-zchaff', 'Build with zchaff'
 

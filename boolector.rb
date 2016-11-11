@@ -15,7 +15,7 @@ end
 class Boolector < Formula
   homepage 'http://fmv.jku.at/boolector/'
   url 'http://fmv.jku.at/boolector/boolector-2.0.6-with-lingeling-azd.tar.bz2', :using => BoolectorDownloadStrategy
-  sha1 '111b91823e254ecac6cf0b9d20732b0b209850c3'
+  sha256 '94c8d412c76732c33840d8a1a645fc040545222ffbd5e506f80dd2f67c66acbf'
 
   option 'with-yalsat', 'Build with yalsat in plingeling'
   option 'with-druplig', 'Build with lingeling-druplig'

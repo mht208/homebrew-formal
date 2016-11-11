@@ -3,7 +3,7 @@ require 'formula'
 class Cudd < Formula
   homepage 'http://vlsi.colorado.edu/~fabio/CUDD/'
   url 'ftp://vlsi.colorado.edu/pub/cudd-2.5.0.tar.gz'
-  sha1 '7d0d8b4b03f5c1819fe77a82f3b947421a72d629'
+  sha256 '4f3bc49b35564af94b17135d8cb8c4063fb049cfaa442f80dc40ba73c6345a85'
 
   def patches
     # Adjust the compile options for Mac OS.

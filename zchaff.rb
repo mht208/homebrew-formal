@@ -3,7 +3,7 @@ require 'formula'
 class Zchaff < Formula
   homepage 'http://www.princeton.edu/~chaff/zchaff.html'
   url 'http://www.princeton.edu/~chaff/zchaff/zchaff.64bit.2007.3.12.zip'
-  sha1 '81770c7121c95686b8fda1f554063a946528ca28'
+  sha256 '9b88d8f366d0dc6b3cacd9d497e755d06af069ff27411870cc8b40fe0f11911f'
 
   option 'with-extra', 'Install extra utilities'
 

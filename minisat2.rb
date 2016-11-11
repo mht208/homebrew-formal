@@ -3,7 +3,7 @@ require 'formula'
 class Minisat2 < Formula
   homepage 'http://minisat.se/MiniSat.html'
   url 'http://minisat.se/downloads/minisat-2.2.0.tar.gz'
-  sha1 'dfc25898bf40e00cf04252a42176e0c0600fbc90'
+  sha256 '92957d851cdc3baddfe07b5fc80ed5a0237c489d0c52ae72f62844b3b46d7808'
 
   option 'without-simp', 'Build without simplification capabilities'
 

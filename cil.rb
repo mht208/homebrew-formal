@@ -3,7 +3,7 @@ require 'formula'
 class Cil < Formula
   homepage 'http://kerneis.github.com/cil/'
   url 'http://downloads.sourceforge.net/project/cil/cil/cil-1.7.3.tar.gz'
-  sha1 'c0605a8d5d3bc5748fdfed8584942b1ff72da01f'
+  sha256 '69b7f290d2b15dd44e2b837d3de0922245be841f79ab56a7e9ba8205544be314'
 
   depends_on "objective-caml"
   depends_on "ocaml-findlib"

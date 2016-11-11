@@ -3,7 +3,7 @@ require 'formula'
 class Libmvca < Formula
   homepage 'http://libalf.informatik.rwth-aachen.de/index.php'
   url 'http://libalf.informatik.rwth-aachen.de/files/libmVCA-v0.3.tar.bz2'
-  sha1 '0731eb6b74a9b6ff486b175aad1af8e23d52189c'
+  sha256 'e5540f9efaf571bf568e71bfda851bc798d8e179e2e31d8398bda41002ad62d9'
 
   patch :DATA
 

@@ -3,7 +3,7 @@ require 'formula'
 class Camomile < Formula
   homepage 'https://github.com/yoriyuki/Camomile'
   url 'https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2'
-  sha1 '5ff0bb2474f22586713b7ce3d6b86308005525ef'
+  sha256 '85806b051cf059b93676a10a3f66051f7f322cad6e3248172c3e5275f79d7100'
 
   depends_on 'objective-caml'
   depends_on 'ocaml-findlib'

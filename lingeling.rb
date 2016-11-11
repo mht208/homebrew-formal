@@ -3,7 +3,7 @@ require 'formula'
 class Lingeling < Formula
   homepage 'http://fmv.jku.at/lingeling/'
   url 'http://fmv.jku.at/lingeling/lingeling-ayv-86bf266-140429.zip'
-  sha1 '5e564942791159f833fc6c98dcae1864b2a3f617'
+  sha256 '9d1fc5d5804fdc41cb3b8cb2dedabbd3fb27e639b3b1f57e157153665828fb81'
 
   option 'with-variants', 'Install other variants as well'
 

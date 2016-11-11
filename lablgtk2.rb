@@ -3,7 +3,7 @@ require 'formula'
 class Lablgtk2 < Formula
   homepage 'http://forge.ocamlcore.org/projects/lablgtk/'
   url 'https://forge.ocamlcore.org/frs/download.php/979/lablgtk-2.16.0.tar.gz'
-  sha1 '3dec411a410fbb38d6e2e5a43a4ebfb2e407e7e6'
+  sha256 'a0ea9752eb257dadcfc2914408fff339d4c34357802f02c63329dd41b777de2f'
 
   option 'with-glade', 'Build with libglade support'
   option 'with-rsvg', 'Build with librsvg support'

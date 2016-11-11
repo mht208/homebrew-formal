@@ -3,7 +3,7 @@ require 'formula'
 class Batteries < Formula
   homepage 'http://batteries.forge.ocamlcore.org'
   url 'https://forge.ocamlcore.org/frs/download.php/1363/batteries-2.2.tar.gz'
-  sha1 '5cae96ec9dfa00af7120ce625be5696df1a98b3d'
+  sha256 '7a7139ffa0c0da356a3be63a1024eb15f15eaf6d396b999565e77f77ca789c7c'
 
   depends_on 'objective-caml'
   depends_on 'ocaml-findlib'

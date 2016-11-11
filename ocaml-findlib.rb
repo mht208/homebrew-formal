@@ -3,7 +3,7 @@ require 'formula'
 class OcamlFindlib < Formula
   homepage 'http://projects.camlcity.org/projects/findlib.html'
   url 'http://download.camlcity.org/download/findlib-1.5.3.tar.gz'
-  sha1 'd0d0d80f7ad0f4fa102b3d7454178fb7445af173'
+  sha256 'd920816e48cb5bf3199fb57b78e30c2c1ea0e5eeeff654810118b14b76d482cf'
 
   depends_on 'objective-caml'
 

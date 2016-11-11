@@ -3,7 +3,7 @@ require 'formula'
 class Ocamlgraph < Formula
   homepage 'http://ocamlgraph.lri.fr'
   url 'http://ocamlgraph.lri.fr/download/ocamlgraph-1.8.3.tar.gz'
-  sha1 'd10c60d33ffcdcd2fbcf7dfb9dc9ff4b754a52e0'
+  sha256 '0df7114b6b6a57125b9c998cc08870b6595fcfd6f2376a0e84cb666c1fd345bd'
 
   option 'with-opt', 'Build native binaries and libraries'
   option 'with-doc', 'Install documentations'

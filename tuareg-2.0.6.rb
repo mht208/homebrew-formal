@@ -3,7 +3,7 @@ require 'formula'
 class Tuareg206 < Formula
   homepage 'https://github.com/ocaml/tuareg'
   url 'http://forge.ocamlcore.org/frs/download.php/882/tuareg-2.0.6.tar.gz'
-  sha1 '8cddbba69c4b73a3a9f2e352e4bc1f72b19a34b2'
+  sha256 'ea79ac24623b82ab8047345f8504abca557a537e639d16ce1ac3e5b27f5b1189'
 
   option 'with-emacs=', 'Re-compile the lisp files with a specified emacs'
 

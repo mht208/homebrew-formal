@@ -4,7 +4,7 @@ class Spass < Formula
   homepage 'http://www.spass-prover.org'
   url 'http://www.spass-prover.org/download/sources/spass37.tgz'
   version '3.7'
-  sha1 '68b1e570381b1bedafb5c682f4dee7ed3a6c6874'
+  sha256 '13c67e5e09b814ba50f38a391fe653661ba714e7541ffd4951efef91274aaacc'
 
   def install
     system "./configure", "--prefix=#{prefix}"

@@ -4,7 +4,7 @@ class Mathsat < Formula
   homepage 'http://mathsat.fbk.eu/index.html'
   url 'http://mathsat.fbk.eu/download.php?file=mathsat-5.2.12-darwin-libcxx-x86_64.tar.gz'
   version '5.2.12'
-  sha1 '7ebc3f28b4590b05885520b30b98bd3fbe046029'
+  sha256 'e6f72b94aba0fb894fc8fdac1d92a3cd96538f990324a47e150455a34c065c56'
 
   depends_on :python
   depends_on 'gmp'

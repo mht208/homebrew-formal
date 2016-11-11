@@ -3,7 +3,7 @@ require 'formula'
 class Aiger < Formula
   homepage 'http://fmv.jku.at/aiger/'
   url 'http://fmv.jku.at/aiger/aiger-1.9.9.tar.gz'
-  sha1 '80f612b650b5b82a71be2ed942420eff412dec6d'
+  sha256 '1e50d3db36f5dc5ed0e57aa4c448b9bcf82865f01736dde1f32f390b780350c7'
 
   depends_on 'picosat'
 

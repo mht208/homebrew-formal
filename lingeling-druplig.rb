@@ -3,7 +3,7 @@ require 'formula'
 class LingelingDruplig < Formula
   homepage 'http://fmv.jku.at/lingeling/'
   url 'http://fmv.jku.at/lingeling/lingeling-druplig-azd-0d99752-140506.zip'
-  sha1 '3fd681bff69479650c3c73dadf29274071b45404'
+  sha256 '08a974432b079b2f7a99d467df08799b3d628e6270b10a9642e9c8e25556fe08'
 
   def install
     Dir.chdir 'code/druplig' do

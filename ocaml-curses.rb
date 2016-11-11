@@ -3,7 +3,7 @@ require 'formula'
 class OcamlCurses < Formula
   homepage 'http://www.nongnu.org/ocaml-tmk/'
   url 'http://download.savannah.gnu.org/releases/ocaml-tmk/ocaml-curses-1.0.3.tar.gz'
-  sha1 '6bcb4a6eaf8353aac93069be0084f833a55340c1'
+  sha256 '990a55ff99223edaa04387802907b00c475b46dd921dc5f8c5ede15ac673656f'
 
   depends_on "objective-caml"
   depends_on "autoconf"

@@ -3,7 +3,7 @@ require 'formula'
 class Z3 < Formula
   homepage 'https://github.com/Z3Prover/z3'
   url 'https://github.com/Z3Prover/z3/archive/z3-4.4.0.tar.gz'
-  sha1 '042dbfdf76fc8c4fbce7b4bfe0c8b0c75520fa30'
+  sha256 '65b72f9eb0af50949e504b47080fb3fc95f11c435633041d9a534473f3142cba'
 
   option 'with-ocaml', 'Build ocaml bindings with the ocaml from Homebrew.'
   option 'with-opam', 'Build ocaml bindings with the ocaml from OPAM.'

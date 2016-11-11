@@ -3,7 +3,7 @@ require 'formula'
 class Libamore < Formula
   homepage 'http://libalf.informatik.rwth-aachen.de/index.php'
   url 'http://libalf.informatik.rwth-aachen.de/files/libAMoRE(++)-v0.3.tar.bz2'
-  sha1 '38f36e23040ecf23b7723b36da329ea09461625f'
+  sha256 '3d273f76c769cbae7410a3a65917bfa296ee9e26cf04584a29cdfe1e1d061ab2'
 
   patch :DATA
 

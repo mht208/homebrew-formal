@@ -4,7 +4,7 @@ class Smtinterpol < Formula
   homepage 'http://ultimate.informatik.uni-freiburg.de/smtinterpol/index.html'
   url 'http://ultimate.informatik.uni-freiburg.de/smtinterpol/smtinterpol.jar'
   version '2.1-144-g5b37bd7'
-  sha1 'ac137aa85219631116fafd899a6c189ea4d44968'
+  sha256 'ae3ad9c9e7fa1e4ce1db7163460f94a6207b0f07345d8e2093116e7d7243e35c'
 
   def install
     File.open("smtinterpol", "w") { |f|

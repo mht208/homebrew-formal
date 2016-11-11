@@ -4,7 +4,7 @@ class Ssreflect < Formula
   homepage 'http://www.msr-inria.inria.fr/Projects/math-components'
   url 'http://ssr.msr-inria.inria.fr/FTP/ssreflect-1.4-coq8.4.tar.gz'
   version '1.4'
-  sha1 'c9e678a362973b202a5d90d2abf6436fa1ab4dcf'
+  sha256 'f044de8f75008000caf0ad61829f936384ee2d4b5fa40630352826c07b125dfb'
 
   depends_on 'objective-caml'
   depends_on 'coq'

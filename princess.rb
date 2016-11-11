@@ -3,7 +3,7 @@ require 'formula'
 class Princess < Formula
   homepage 'http://www.philipp.ruemmer.org/princess.shtml'
   url 'http://www.philipp.ruemmer.org/princess/princess-2014-08-27.tar.gz'
-  sha1 '2a2533b9da3775a7762ad5340ca6982f60c09e96'
+  sha256 '8821aa85607a20ad82337662569e979698bd3a0b2aede50593d668c8389fb249'
 
   depends_on 'scala'
 

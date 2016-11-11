@@ -3,7 +3,7 @@ require 'formula'
 class Camlidl < Formula
   homepage 'http://caml.inria.fr/pub/old_caml_site/camlidl/'
   url 'http://caml.inria.fr/pub/old_caml_site/distrib/bazar-ocaml/camlidl-1.05.tar.gz'
-  sha1 '2a0d5ba70fea8c1de1c5387f8b2058357b2177df'
+  sha256 '857ed5bd3b2f99c62813070e1a5b4b6375e837c6815f4ad956baeb6f8c660311'
 
   depends_on 'objective-caml'
 

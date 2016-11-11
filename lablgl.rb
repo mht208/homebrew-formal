@@ -3,7 +3,7 @@ require 'formula'
 class Lablgl < Formula
   homepage 'https://forge.ocamlcore.org/projects/lablgl/'
   url 'https://forge.ocamlcore.org/frs/download.php/816/lablgl-20120306.tar.gz'
-  sha1 '996f0aba788f5fa1531587fb06d667b94237cc92'
+  sha256 '39017555724ca67807e73543b9fca1fcf9aab285f723635c9eee4034ac88adf0'
 
   depends_on :x11
   depends_on 'objective-caml'
