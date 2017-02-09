@@ -14,19 +14,15 @@ end
 
 class Boolector < Formula
   homepage 'http://fmv.jku.at/boolector/'
-  url 'http://fmv.jku.at/boolector/boolector-2.0.6-with-lingeling-azd.tar.bz2', :using => BoolectorDownloadStrategy
-  sha256 '94c8d412c76732c33840d8a1a645fc040545222ffbd5e506f80dd2f67c66acbf'
+  url 'http://fmv.jku.at/boolector/boolector-2.4.0-with-lingeling-bbc.tar.bz2', :using => BoolectorDownloadStrategy
+  sha256 '5884c8b176e030363943014405dc317aff4da78da5f32ec6782a52142f519d9e'
 
-  option 'with-yalsat', 'Build with yalsat in plingeling'
-  option 'with-druplig', 'Build with lingeling-druplig'
   option 'with-python', 'Build with python api (not working)'
 
   depends_on 'minisat2' => :recommended
-  depends_on 'picosat' => :recommended
+  depends_on 'picosat' => :optional
   depends_on :python => :optional
   depends_on 'Cython' => :python if build.with? 'python'
-  depends_on 'plingeling' if build.with? 'yalsat'
-  depends_on 'lingeling-druplig' if build.with? 'druplig'
 
   patch :DATA
 
@@ -42,27 +38,31 @@ class Boolector < Formula
 
     # Compile Boolector.
     Dir.chdir 'boolector' do
-      args = ['-static']
+      args = ['-static', '--lingeling']
       args << ((build.with? 'python') ? '-python' : '')
       args << ((build.without? 'minisat2') ? '--no-minisat' : '--minisat')
       args << ((build.without? 'picosat') ? '--no-picosat' : '--picosat')
-      system "./configure", *args
+      system "./configure.sh", *args
       system "make"
-      system "make deltabtor"
-      system "make libboolector.dylib"
+      system "make build/libboolector.dylib"
     end
 
     # Install.
     Dir.chdir 'boolector' do
-      bin.install "boolector", "deltabtor", "synthebtor"
-      lib.install "libboolector.a", "libboolector.dylib"
-      (include/'boolector').install Dir['*.h']
+      bin.install "bin/boolector"
+      lib.install "build/libboolector.a", "build/libboolector.dylib"
+      (include/'boolector').install Dir['src/*.h']
+      (include/'boolector'/'dumper').install Dir['src/dumper/*.h']
+      (include/'boolector'/'parser').install Dir['src/parser/*.h']
+      (include/'boolector'/'simplifier').install Dir['src/simplifier/*.h']
+      (include/'boolector'/'utils').install Dir['src/utils/*.h']
       (share/'boolector').install 'doc', 'examples'
       if build.with? 'python'
-        (share/'boolector').install 'api/python/api_usage_examples.py'
-        (include/'boolector').install 'api/python/boolector_py.h'
-        pylocal.install Dir['build/**/boolector.o'], 'api/python/boolector.pyx',
-                        'api/python/btorapi.pxd'
+        (share/'boolector').install 'src/api/python/api_usage_examples.py'
+        (include/'boolector').install 'src/api/python/boolector_py.h'
+        pylocal.install 'build/api/python/boolector_py.o',
+                        'src/api/python/boolector.pyx',
+                        'src/api/python/btorapi.pxd'
       end
     end
   end
@@ -70,217 +70,216 @@ class Boolector < Formula
 end
 
 __END__
-diff --git a/boolector/configure b/boolector/configure
-index e04471f..0fef4c3 100755
---- a/boolector/configure
-+++ b/boolector/configure
-@@ -124,7 +124,7 @@ fi
+diff --git a/boolector/configure.sh b/boolector/configure.sh
+index c6b0493..8f32799 100755
+--- a/boolector/configure.sh
++++ b/boolector/configure.sh
+@@ -154,7 +154,7 @@ done
  #--------------------------------------------------------------------------#
  
- TARGETS="boolector"
--[ $shared = yes ] && TARGETS="$TARGETS libboolector.so"
-+[ $shared = yes ] && TARGETS="$TARGETS libboolector.dylib"
+ TARGETS="$BINDIR/boolector"
+-[ $shared = yes ] && TARGETS="$TARGETS $BUILDIR/libboolector.so"
++[ $shared = yes ] && TARGETS="$TARGETS $BUILDIR/libboolector.dylib"
  
  #--------------------------------------------------------------------------#
  
-@@ -184,8 +184,8 @@ LIBM=no
+@@ -164,7 +164,7 @@ then
+   CFLAGS="-W -Wall -Wextra -Wredundant-decls"
+   [ $arch = 32 ] && CFLAGS="$CFLAGS -m32"
+   [ $arch = 64 ] && CFLAGS="$CFLAGS -m64"
+-  [ $static = yes ] && CFLAGS="$CFLAGS -static"
++  [ $static = yes ] && CFLAGS="$CFLAGS"
+   [ $shared = yes ] && CFLAGS="$CFLAGS -fPIC"
+   if [ $debug = yes ]
+   then
+@@ -213,10 +213,10 @@ LDEPS="$BUILDIR/libboolector.a"
+ LIBZ=no
+ LIBM=no
  LIBSTDCPP=no
+-RPATHS="-rpath\,$ROOT/$BUILDIR"
++RPATHS=""
  if [ $shared = yes ]
  then
--  LIBS="-Wl\,-rpath=$(pwd)/."
--  LDEPS="libboolector.so"
-+  LIBS="-Wl"
-+  LDEPS="libboolector.dylib"
+-  LDEPS="$BUILDIR/libboolector.so"
++  LDEPS="$BUILDIR/libboolector.dylib"
    LIBSTDCPP=yes
  fi
  
-@@ -196,9 +196,9 @@ then
+@@ -227,28 +227,7 @@ then
    msg "not using PicoSAT"
  else
  
--  if [ -d ../picosat ]
-+  if [ -d /usr/local/lib ]
+-  if [ -d $ROOT/../picosat ]
+-  then
+-    for path in $ROOT/../picosat/picosat.o $ROOT/../picosat/version.o allfound
+-    do
+-      [ -f $path ] || break
+-    done
+-  else
+-    path=$ROOT/../picosat
+-  fi
+-
+-  if [ $path = allfound ]
+-  then
+-    msg "using PicoSAT in '$ROOT/../picosat'"
+-    picosat=yes
+-  elif [ $picosat = yes ]
+-  then
+-    die "impossible to use PicoSAT: '$path' missing"
+-  else
+-    msg "disabling PicoSAT: '$path' missing"
+-    picosat=no
+-  fi
+-
++  picosat=yes
+   if [ $picosat = yes ]
    then
--    for path in ../picosat/picosat.o ../picosat/version.o allfound
-+    for path in /usr/local/include/picosat.h /usr/local/lib/libpicosat.a allfound
-     do
-       [ -f $path ] || break
-     done
-@@ -208,7 +208,7 @@ else
- 
-   if [ $path = allfound ]
-   then
--    msg "using PicoSAT in '../picosat'"
-+    msg "using PicoSAT in '/usr/local/lib/libpicosat.a'"
-     picosat=yes
-   elif [ $picosat = yes ]
-   then
-@@ -225,9 +225,9 @@ else
+     [ X"$CFLAGS" = X ] || CFLAGS="$CFLAGS "
+@@ -256,16 +235,16 @@ else
      [ X"$LDEPS" = X ] || LDEPS="$LDEPS "
      [ X"$LIBS" = X ] || LIBS="$LIBS "
      CFLAGS="${CFLAGS}-DBTOR_USE_PICOSAT"
--    LIBS="${LIBS}-L../picosat -Wl\,-rpath=$(pwd)/../picosat/ -lpicosat"
--    LDEPS="${LDEPS}../picosat/libpicosat.a"
--    INCS="${INCS}-I../picosat"
-+    LIBS="${LIBS}-L/usr/local/lib -Wl -lpicosat"
-+    LDEPS="${LDEPS}/usr/local/lib/libpicosat.a"
+-    RPATHS="${RPATHS}\,-rpath\,$ROOT/../picosat/"
++    RPATHS="${RPATHS}"
+     if [ $shared = yes ]		
+     then
+-      LIBS="${LIBS}-L$ROOT/../picosat -lpicosat"
+-      LDEPS="${LDEPS}$ROOT/../picosat/libpicosat.so"
++      LIBS="${LIBS}-L/usr/local/lib -lpicosat"
++      LDEPS="${LDEPS}/usr/local/lib/libpicosat.dylib"
+     else
+-      LIBS="${LIBS}-L$ROOT/../picosat -lpicosat"
+-      LDEPS="${LDEPS}$ROOT/../picosat/libpicosat.a"
++      LIBS="${LIBS}-L/usr/local/lib -lpicosat"
++      LDEPS="${LDEPS}/usr/local/lib/libpicosat.a"
+     fi
+-    INCS="${INCS}-I$ROOT/../picosat"
 +    INCS="${INCS}-I/usr/local/include"
    fi
  fi
  
-@@ -274,9 +274,9 @@ else
-     INCS="${INCS}-I../lingeling"
-   fi
- 
--  if [ -d ../yalsat ]
-+  if [ -d /usr/local/lib ]
-   then
--    for path in ../yalsat/yals.h ../yalsat/libyals.a allfound
-+    for path in /usr/local/include/lingeling/yals.h /usr/local/lib/libyals.a allfound
-     do
-       [ -f $path ] || break
-     done
-@@ -286,7 +286,7 @@ else
- 
-   if [ $path = allfound ]
-   then
--    msg "using YalSAT in '../yalsat' too"
-+    msg "using YalSAT in '/usr/local/lib/libyals.a' too"
-     yalsat=yes
-   else
-     msg "not using YalSAT"
-@@ -297,13 +297,15 @@ else
-   then
-     [ X"$LDEPS" = X ] || LDEPS="$LDEPS "
-     [ X"$LIBS" = X ] || LIBS="$LIBS "
--    LIBS="${LIBS}-L../yalsat -lyals"
--    LDEPS="${LDEPS}../yalsat/libyals.a"
-+    [ X"$INCS" = X ] || INCS="$INCS "
-+    LIBS="${LIBS}-L/usr/local/lib -lyals"
-+    LDEPS="${LDEPS}/usr/local/lib/libyals.a"
-+    INCS="${INCS}-I/usr/local/include/lingeling"
-   fi
- 
--  if [ -d ../druplig ]
-+  if [ -d /usr/local/lib ]
-   then
--    for path in ../druplig/druplig.h ../druplig/libdruplig.a allfound
-+    for path in /usr/local/include/lingeling/druplig.h /usr/local/lib/libdruplig.a allfound
-     do
-       [ -f $path ] || break
-     done
-@@ -313,7 +315,7 @@ else
- 
-   if [ $path = allfound ]
-   then
--    msg "using Druplig in '../druplig' too"
-+    msg "using Druplig in '/usr/local/lib/libdruplig.a' too"
-     druplig=yes
-   else
-     msg "not using Druplig"
-@@ -324,8 +326,10 @@ else
-   then
-     [ X"$LDEPS" = X ] || LDEPS="$LDEPS "
-     [ X"$LIBS" = X ] || LIBS="$LIBS "
--    LIBS="${LIBS}-L../druplig -ldruplig"
--    LDEPS="${LDEPS}../druplig/libdruplig.a"
-+    [ X"$INCS" = X ] || INCS="$INCS "
-+    LIBS="${LIBS}-L/usr/local/lib -ldruplig"
-+    LDEPS="${LDEPS}/usr/local/lib/libdruplig.a"
-+    INCS="${INCS}-I/usr/local/include/lingeling"
-   fi
- fi
- 
-@@ -337,10 +341,11 @@ then
+@@ -373,38 +352,7 @@ then
+   msg "not using MiniSAT"
  else
  
-   for path in \
--    ../minisat \
--    ../minisat/minisat \
--    ../minisat/minisat/simp \
--    ../minisat/build/release \
-+    /usr/local/include/minisat \
-+    /usr/local/include/minisat/core \
-+    /usr/local/include/minisat/mtl \
-+    /usr/local/include/minisat/simp \
-+    /usr/local/include/minisat/utils \
-     allfound
-   do
-     [ -d $path ] || break
-@@ -349,8 +354,8 @@ else
-   if [ $path = allfound ]
+-  for path in \
+-    $ROOT/../minisat \
+-    $ROOT/../minisat/minisat \
+-    $ROOT/../minisat/minisat/simp \
+-    $ROOT/../minisat/build/release \
+-    allfound
+-  do
+-    [ -d $path ] || break
+-  done
+-
+-  if [ $path = allfound ]
+-  then
+-    for path in \
+-      $ROOT/../minisat/minisat/simp/SimpSolver.h \
+-      $ROOT/../minisat/build/release/lib/libminisat.a \
+-      allfound
+-    do
+-      [ -f $path ] || break
+-    done
+-  fi
+-
+-  if [ $path = allfound ]
+-  then
+-    msg "using MiniSAT in '$ROOT/../minisat'"
+-    minisat=yes
+-  elif [ $minisat = yes ]
+-  then
+-    die "impossible to use MiniSAT: '$path' missing"
+-  else
+-    msg "disabling MiniSAT: '$path' missing"
+-  fi
+-
++  minisat=yes
+   if [ $minisat = yes ]
    then
-     for path in \
--      ../minisat/minisat/simp/SimpSolver.h \
--      ../minisat/build/release/lib/libminisat.a \
-+      /usr/local/include/minisat/simp/SimpSolver.h \
-+      /usr/local/lib/libminisat.a \
-       allfound
-     do
-       [ -f $path ] || break
-@@ -359,7 +364,7 @@ else
- 
-   if [ $path = allfound ]
-   then
--    msg "using MiniSAT in '../minisat'"
-+    msg "using MiniSAT in '/usr/local/lib/libminisat.a'"
-     minisat=yes
-   elif [ $minisat = yes ]
-   then
-@@ -379,16 +384,16 @@ else
-     OBJS="${OBJS}btorminisat.o"
+     [ X"$CFLAGS" = X ] || CFLAGS="$CFLAGS "
+@@ -414,19 +362,19 @@ else
+     [ X"$INCS" = X ] || INCS="$INCS "
+     CFLAGS="${CFLAGS}-DBTOR_USE_MINISAT"
+     OBJS="${OBJS}$BUILDIR/btorminisat.o"
+-    RPATHS="${RPATHS}\,-rpath\,$ROOT/../minisat/build/dynamic/lib"
++    RPATHS="${RPATHS}"
      if [ $shared = yes ]
      then
--      LIBS="${LIBS}-L../minisat/build/dynamic/lib -Wl\,-rpath=$(pwd)/../minisat/build/dynamic/lib -lminisat"
--      LDEPS="${LDEPS}../minisat/build/dynamic/lib/libminisat.so"
-+      LIBS="${LIBS}-L/usr/local/lib -Wl -lminisat"
+-      LIBS="${LIBS}-L$ROOT/../minisat/build/dynamic/lib -lminisat"
+-      LDEPS="${LDEPS}$ROOT/../minisat/build/dynamic/lib/libminisat.so"
++      LIBS="${LIBS}-L/usr/local/lib -lminisat"
 +      LDEPS="${LDEPS}/usr/local/lib/libminisat.dylib"
      else
--      LIBS="${LIBS}-L../minisat/build/release/lib -lminisat"
--      LDEPS="${LDEPS}../minisat/build/release/lib/libminisat.a"
+-      LIBS="${LIBS}-L$ROOT/../minisat/build/release/lib -lminisat"
+-      LDEPS="${LDEPS}$ROOT/../minisat/build/release/lib/libminisat.a"
 +      LIBS="${LIBS}-L/usr/local/lib -lminisat"
 +      LDEPS="${LDEPS}/usr/local/lib/libminisat.a"
      fi
      LIBSTDCPP=yes
      LIBZ=yes
      LIBM=yes
--    INCS="${INCS}-I../minisat"
+-    INCS="${INCS}-I$ROOT/../minisat"
 +    INCS="${INCS}-I/usr/local/include"
    fi
  
  fi
-@@ -454,7 +459,7 @@ ext_modules=[
-               library_dirs=[cwd+"/"+s for s in "$py_library_dirs".split()],
+@@ -462,7 +410,7 @@ fi
+ 
+ #--------------------------------------------------------------------------#
+ 
+-LIBS="-Wl\,${RPATHS} ${LIBS}"
++LIBS="-Wl ${LIBS}"
+ 
+ if [ $python = yes ]
+ then
+@@ -482,13 +430,13 @@ then
+   fi
+   if [ $picosat = yes ]; then
+     py_libraries="$py_libraries picosat"
+-    py_library_dirs="$py_library_dirs $ROOT/../picosat"
+-    py_inc_dirs="$py_inc_dirs $ROOT/../picosat"
++    py_library_dirs="$py_library_dirs /usr/local/lib"
++    py_inc_dirs="$py_inc_dirs /usr/local/include"
+   fi
+   if [ $minisat = yes ]; then
+     py_libraries="$py_libraries minisat"
+-    py_library_dirs="$py_library_dirs $ROOT/../minisat/build/dynamic/lib"
+-    py_inc_dirs="$py_inc_dirs $ROOT/../minisat/build/dynamic/lib"
++    py_library_dirs="$py_library_dirs /usr/local/lib"
++    py_inc_dirs="$py_inc_dirs /usr/local/include"
+   fi
+   OBJS="$BUILDIR/api/python/boolector_py.o $OBJS" 
+   pyinc=`$PYTHON -c "import sysconfig; print(sysconfig.get_config_var('CONFINCLUDEPY'))"`
+@@ -511,7 +459,7 @@ ext_modules=[
+               library_dirs=[s for s in "$py_library_dirs".split()],
                libraries="$py_libraries".split(),
                extra_compile_args=[s for s in "$CFLAGS".split() if "-D" in s],
--	      extra_link_args=["-Wl,-rpath="+":".join([cwd+"/"+s for s in "$py_library_dirs".split()])]
-+	      extra_link_args=["-Wl"]
+-       extra_link_args=["-Wl,-rpath,"+":".join([s for s in "$py_library_dirs".split()])]
++       extra_link_args=["-Wl"]
      )
  ]
  setup(cmdclass={'build_ext': build_ext}, ext_modules=ext_modules)
 diff --git a/boolector/makefile.in b/boolector/makefile.in
-index 5cf9595..309309f 100644
+index aebdfa5..78ec5f0 100644
 --- a/boolector/makefile.in
 +++ b/boolector/makefile.in
-@@ -45,10 +45,9 @@ libboolector.a: $(LIBOBJ)
- btorconfig.h: makefile VERSION mkconfig
- 	rm -f $@; ./mkconfig > $@
+@@ -61,8 +61,8 @@ $(BUILDIR)/libboolector.a: $(LIBOBJS)
+ 	ranlib $@
  
--SONAME=-Xlinker -soname -Xlinker libboolector.so
- SHOBJS=$(filter-out ./btormbt.o ./btoruntrace.o ./btormain, $(LIBOBJ))
--libboolector.so: $(SHOBJS)
--	$(CC) $(CFLAGS) -shared -o $@ $(SHOBJS) $(LIBS) $(SONAME)
-+libboolector.dylib: $(SHOBJS)
+ SHOBJS=$(filter-out $(BUILDIR)/btormbt.o $(BUILDIR)/btoruntrace.o $(BUILDIR)/btormain.o $(BUILDIR)/boolectormain.o, $(LIBOBJS))
+-$(BUILDIR)/libboolector.so: $(SHOBJS)
+-	$(CC) $(CFLAGS) -shared -o $@ $(SHOBJS) $(LIBS) -Xlinker -soname=libboolector.so
++$(BUILDIR)/libboolector.dylib: $(SHOBJS)
 +	$(CC) $(CFLAGS) -shared -install_name $@ -o $@ $(SHOBJS) $(LIBS)
  
- clean:
- 	rm -f $(TARGETS)
-
-diff --git a/boolector/btorminisat.cc b/boolector/btorminisat.cc
-index 2211460..f4f3014 100644
---- a/boolector/btorminisat.cc
-+++ b/boolector/btorminisat.cc
-@@ -19,7 +19,7 @@
+ $(BINDIR)/boolector: $(BUILDIR)/btormain.o $(BUILDIR)/boolectormain.o $(LDEPS)
+ 	@mkdir -p $(@D)
+diff --git a/boolector/src/btorminisat.cc b/boolector/src/btorminisat.cc
+index d7a0791..bec7d9a 100644
+--- a/boolector/src/btorminisat.cc
++++ b/boolector/src/btorminisat.cc
+@@ -20,7 +20,7 @@
  #define __STDC_FORMAT_MACROS
  #endif
  
@@ -289,18 +288,4 @@ index 2211460..f4f3014 100644
  
  #include <cassert>
  #include <cstring>
-
-diff --git a/boolector/configure b/boolector/configure
-index 0fef4c3..429e8bb 100755
---- a/boolector/configure
-+++ b/boolector/configure
-@@ -134,7 +134,7 @@ then
-   CFLAGS="-W -Wall -Wextra"
-   [ $arch = 32 ] && CFLAGS="$CFLAGS -m32"
-   [ $arch = 64 ] && CFLAGS="$CFLAGS -m64"
--  [ $static = yes ] && CFLAGS="$CFLAGS -static"
-+  [ $static = yes ] && CFLAGS="$CFLAGS"
-   [ $shared = yes ] && CFLAGS="$CFLAGS -fPIC"
-   if [ $debug = yes ]
-   then
 
