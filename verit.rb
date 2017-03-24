@@ -19,13 +19,14 @@ end
 
 class Verit < Formula
   homepage 'http://www.verit-solver.org'
-  url 'http://www.verit-solver.org/distrib/veriT-201410.tar.gz'
-  sha256 '43158c2053b25e84b70942f5788b42d5883650a723a97965026b58c907cd612c'
+  url 'http://www.verit-solver.org/distrib/veriT-stable2016.tar.gz'
+  sha256 '8bec735297065068d9868da1250f45bccf36dbf9e1029f8b074f62f06323773f'
 
   option 'with-doc', 'Install documentations'
   option 'without-proof', 'Build without proof production support'
 
   depends_on 'wget'
+  depends_on 'autoconf'
 
   if build.with? 'doc'
     depends_on 'doxygen'
@@ -34,25 +35,14 @@ class Verit < Formula
   end
 
   def install
-    inreplace 'Makefile.config', /PROOF_PRODUCTION = YES/, 'PROOF_PRODUCTION = NO' if not build.with? 'proof'
+    inreplace 'Makefile.in', '$(INSTALL) veriT $(PREFIX_BIN)', '$(INSTALL) -d $(PREFIX_BIN) && $(INSTALL) veriT $(PREFIX_BIN)/veriT'
+    inreplace 'Makefile.in', '$(INSTALL) veriT-SAT $(PREFIX_BIN)', '$(INSTALL) veriT-SAT $(PREFIX_BIN)/veriT-SAT'
+    args = ["--prefix=#{prefix}"]
+    args << ((build.without? 'proof') ? '--disable-proof' : '')
+    system "autoconf"
+    system "./configure", *args
     system "make"
-
-    bin.install "veriT"
-    if build.with? 'doc'
-      system "make doc"
-      system "make -C doc/user/veriT/latex"
-      system "make -C doc/user/libveriT/latex"
-
-      (doc/'user/veriT').install "doc/user/veriT/latex/refman.pdf"
-      (doc/'user/veriT/html').install Dir["doc/user/veriT/html/*"]
-      man3.install Dir["doc/user/veriT/man/man3/arguments_*.3"]
-
-      (doc/'user/libveriT').install "doc/user/libveriT/latex/refman.pdf"
-      (doc/'user/libveriT/html').install Dir["doc/user/libveriT/html/*"]
-      man3.install Dir["doc/user/libveriT/man/man3/veriT*.h.3"]
-
-      (doc/'dev/latex').install Dir["doc/dev/latex/*"]
-      (doc/'dev/html').install Dir["doc/dev/html/*"]
-    end
+    system "make install"
   end
+
 end
