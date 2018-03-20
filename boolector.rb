@@ -21,7 +21,6 @@ class Boolector < Formula
 
   depends_on 'minisat2' => :recommended
   depends_on 'picosat' => :optional
-  depends_on :python => :optional
   depends_on 'Cython' => :python if build.with? 'python'
 
   patch :DATA

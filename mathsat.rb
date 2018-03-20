@@ -6,7 +6,6 @@ class Mathsat < Formula
   version '5.2.12'
   sha256 'e6f72b94aba0fb894fc8fdac1d92a3cd96538f990324a47e150455a34c065c56'
 
-  depends_on :python
   depends_on 'gmp'
 
   def install

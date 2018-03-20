@@ -8,10 +8,9 @@ class Csdp < Formula
 
   depends_on 'gcc'
 
-  fails_with :llvm do
-  end
-
   fails_with :clang do
+    build 900
+    cause "library not found for -lgfortran"
   end
 
   def install
