@@ -6,6 +6,12 @@ class Camlidl < Formula
   sha256 '857ed5bd3b2f99c62813070e1a5b4b6375e837c6815f4ad956baeb6f8c660311'
 
   depends_on 'objective-caml'
+  depends_on 'besport/ocaml/ocaml-pcre'
+
+  def patches
+    # Fixing the hardcoded /lib/cpp
+    DATA
+  end
 
   def install
     homebrew_prefix_stdlib = `ocamlc -where`.gsub /\n/, ""
@@ -18,3 +24,15 @@ class Camlidl < Formula
     system "make install BINDIR=#{bin}/ OCAMLLIB=#{prefix_stdlib}"
   end
 end
+__END__
+--- a/config/Makefile.unix	2012-12-12 02:00:48.000000000 -0800
++++ b/config/Makefile.unix	2012-12-12 02:00:52.000000000 -0800
+@@ -19,7 +19,7 @@
+ 
+ # How to invoke the C preprocessor
+ # Works on most Unix systems:
+-CPP=/lib/cpp
++CPP=cpp
+ # Alternatives:
+ # CPP=cpp
+ # CPP=/usr/ccs/lib/cpp
