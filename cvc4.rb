@@ -2,15 +2,16 @@ require 'formula'
 
 class Cvc4 < Formula
   homepage 'http://cvc4.cs.nyu.edu'
-  url 'http://cvc4.cs.nyu.edu/builds/macos/ports/cvc4/cvc4-1.4_2.darwin_13.x86_64.tbz2'
-  version '1.4.2'
-  sha256 '716da2dc4e16e139b64dad5b417793c1632f23dcfcba42194cc859e5ad9145fe'
+  url 'http://cvc4.cs.stanford.edu/downloads/builds/src/cvc4-1.6.tar.gz'
+  version '1.6'
+  sha256 '5c18bd5ea893fba9723a4d35c889d412ec6d29a21db9db69481891a8ff4887c7'
+
+  depends_on 'gmp'
+  depends_on 'python'
 
   def install
-    bin.install 'opt/local/bin/cvc4'
-    include.install 'opt/local/include/cvc4'
-    lib.install Dir['opt/local/lib/*']
-    doc.install 'opt/local/share/doc/cvc4'
-    man.install Dir['opt/local/share/man/*']
+    system "./configure", "--prefix=#{prefix}"
+    system "make"
+    system "make", "install"
   end
 end
