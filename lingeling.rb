@@ -1,24 +1,18 @@
 require 'formula'
 
 class Lingeling < Formula
+  desc 'a SAT solver'
   homepage 'http://fmv.jku.at/lingeling/'
-  url 'http://fmv.jku.at/lingeling/lingeling-ayv-86bf266-140429.zip'
-  sha256 '9d1fc5d5804fdc41cb3b8cb2dedabbd3fb27e639b3b1f57e157153665828fb81'
-
-  option 'with-variants', 'Install other variants as well'
-
-  depends_on 'lingeling-druplig' if build.with? 'variants'
-  depends_on 'plingeling' if build.with? 'variants'
-  depends_on 'treengeling' if build.with? 'variants'
+  url 'http://fmv.jku.at/lingeling/lingeling-bcj-78ebb86-180517.tar.gz'
+  sha256 '2480197e48907eaaf935e96f9837366942054f26ed4c58f92ec66efedada07f2'
 
   def install
-    Dir.chdir 'code' do
-      system "./configure.sh -O"
-      system "make lingeling"
-      bin.install "lingeling"
-      lib.install "liblgl.a"
-      (include/'lingeling').install "lgldimacs.h", "lglib.h"
-    end
+    system "./configure.sh"
+    system "make"
+    bin.install "ilingeling", "lglddtrace", "lglmbt", "lgluntrace",
+                "lingeling", "plingeling", "treengeling"
+    lib.install "liblgl.a"
+    (include/'lingeling').install Dir['*.h']
   end
 
 end
