@@ -18,5 +18,5 @@ Note
 
 To install OCaml related software such as [Coq](https://coq.inria.fr),
 [mathcomp](https://github.com/math-comp/math-comp),
-[alt-ergo](http://alt-ergo.lri.fr)), we recommend
+[alt-ergo](http://alt-ergo.lri.fr), we recommend
 [OPAM](https://opam.ocaml.org "OPAM").
