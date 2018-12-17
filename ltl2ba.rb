@@ -2,8 +2,8 @@ require 'formula'
 
 class Ltl2ba < Formula
   homepage 'http://www.lsv.ens-cachan.fr/~gastin/ltl2ba/'
-  url 'http://www.lsv.ens-cachan.fr/~gastin/ltl2ba/ltl2ba-1.1.tar.gz'
-  sha256 'a66bf05bc3fd030f19fd0114623d263870d864793b1b0a2ccf6ab6a40e7be09b'
+  url 'http://www.lsv.fr/~gastin/ltl2ba/ltl2ba-1.2.tar.gz'
+  sha256 '9dfe16c2362e953982407eabf773fff49d69b137b13bd5360b241fb4cf2bfb6f'
 
   def install
     system "make"
