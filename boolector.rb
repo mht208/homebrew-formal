@@ -12,12 +12,14 @@ class Boolector < Formula
   depends_on 'cmake'
   depends_on 'sphinx-doc' if build.with? 'doc'
 
+  patch :DATA
+
   def install
     # Build dependencies
     system "./contrib/setup-btor2tools.sh"
     system "./contrib/setup-cadical.sh"
     system "./contrib/setup-lingeling.sh"
-    #system "./contrib/setup-minisat.sh" # Failed to compile
+    system "./contrib/setup-minisat.sh"
     #system "./contrib/setup-picosat.sh" # Failed to compile
 
     args = []
@@ -65,3 +67,18 @@ class Boolector < Formula
   end
 
 end
+
+__END__
+diff --git a/contrib/setup-minisat.sh b/contrib/setup-minisat.sh
+index 61a0c64..8f19462 100755
+--- a/contrib/setup-minisat.sh
++++ b/contrib/setup-minisat.sh
+@@ -10,6 +10,6 @@ mkdir -p ${SETUP_DIR}
+ MINISAT_DIR=${SETUP_DIR}/minisat
+ 
+ # Download and build MiniSat
+-git clone --depth 1 https://github.com/niklasso/minisat.git ${MINISAT_DIR}
++git clone --depth 1 https://github.com/mht208/minisat.git ${MINISAT_DIR}
+ cd ${MINISAT_DIR}
+ make -j${NPROC}
+
