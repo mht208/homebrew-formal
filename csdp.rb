@@ -9,6 +9,11 @@ class Csdp < Formula
   depends_on 'gcc'
 
   fails_with :clang do
+    build 1001
+    cause "library not found for -lgfortran"
+  end
+
+  fails_with :clang do
     build 900
     cause "library not found for -lgfortran"
   end
