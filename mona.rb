@@ -2,13 +2,13 @@ require 'formula'
 
 class Mona < Formula
   homepage 'http://www.brics.dk/mona/'
-  url 'http://www.brics.dk/mona/download/mona-1.4-15.tar.gz'
-  sha256 '8fae914463a5813c46a53a4a57eeef9f873b020b155dea407c83eaf0d6d82668'
+  url 'http://www.brics.dk/mona/download/mona-1.4-17.tar.gz'
+  sha256 'cd50d6db7410fcdc1c87ff95278b69fc95624107092a69f754bb999746a68763'
 
   def install
     system "./configure", "--prefix=#{prefix}",
                           "--datadir=#{share}/mona"
     system "make"
-    system "make install-strip"
+    system "make install"
   end
 end
