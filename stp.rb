@@ -1,19 +1,27 @@
 require 'formula'
 
 class Stp < Formula
-  homepage 'https://sites.google.com/site/stpfastprover/STP-Fast-Prover'
-  version 'master'
-  url 'https://github.com/stp/stp.git', :branch => 'master'
+  homepage 'https://stp.github.io'
+  version '2.3.3'
+  url 'https://github.com/stp/stp/archive/2.3.3.tar.gz'
+  sha256 'ea6115c0fc11312c797a4b7c4db8734afcfce4908d078f386616189e01b4fffa'
+  head 'https://github.com/stp/stp.git', :branch => 'master'
 
   depends_on 'cmake' => :build
+  depends_on 'bison'
+  depends_on 'flex'
+  depends_on 'minisat2'
+  depends_on 'cryptominisat'
 
   def install
-    d = pwd
-    mkdir "build"
-    system "cd build && cmake -G 'Unix Makefiles' #{d}"
-    system "cd build && make"
-    bin.install "build/stp"
-    lib.install "build/lib/libstp.a"
-    include.install "build/include/stp"
+    pyver = `python --version 2>&1 | awk '{print $2}'`.chomp.gsub(/([0-9]+).([0-9]+).([0-9]+)/, '\1.\2')
+    pylocal = (lib/"python#{pyver}/site-packages")
+    Dir.mkdir "build"
+    Dir.chdir "build" do
+      mkdir_p "#{pylocal}"
+      system "cmake -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} -DPYTHON_LIB_INSTALL_DIR=#{pylocal} .."
+      system "make"
+      system "make install"
+    end
   end
 end
