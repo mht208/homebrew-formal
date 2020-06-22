@@ -10,13 +10,7 @@ class Libalf < Formula
   patch :DATA
 
   fails_with :clang do
-    build 1001
-    cause "../include/libalf/knowledgebase.h:90:40: error: no class named 'iterator' in 'knowledgebase<answer>'"
-  end
-
-  fails_with :clang do
-    build 900
-    cause "../include/libalf/knowledgebase.h:90:40: error: no class named 'iterator' in 'knowledgebase<answer>'"
+    cause "error: no class named 'iterator' in 'knowledgebase<answer>'"
   end
 
   def install

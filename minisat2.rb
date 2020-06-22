@@ -7,10 +7,7 @@ class Minisat2 < Formula
 
   option 'without-simp', 'Build without simplification capabilities'
 
-  def patches
-    # Fix friend functions with default arguments and add the missing memUsedPeak for Mac OS
-    DATA
-  end
+  patch :DATA
 
   def install
     d = (build.without? 'simp') ? 'core' : 'simp'
