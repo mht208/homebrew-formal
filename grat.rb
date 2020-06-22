@@ -4,7 +4,7 @@ class Grat < Formula
   desc 'a SAT solver certificate checking tool chain'
   homepage 'https://www21.in.tum.de/~lammich/grat/'
   url 'https://www21.in.tum.de/~lammich/grat/gratchk.tgz'
-  sha256 'f4ef54c4178ebb0b98014b0692525bd851d5ca9ef529b7f49a38fd2ac8718704'
+  sha256 'd24bc831d0079d7d9821c3f6abc0555d23bc1cb1b605b60588e26eaa8c9db4d4'
   version 'latest'
 
   depends_on 'mlton'
@@ -12,7 +12,7 @@ class Grat < Formula
 
   resource 'gratgen' do
     url 'https://www21.in.tum.de/~lammich/grat/gratgen.tgz'
-    sha256 '7f4ad462b15525a700f276ef1ad472117c09aa8b66231048372759dcb551ff1f'
+    sha256 'b56acefdf94b5a1e97236ebcb00c83ddf5546fc33573536aca5d82b38d3a6509'
   end
 
   def install
