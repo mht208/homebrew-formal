@@ -3,20 +3,16 @@ require 'formula'
 class Csdp < Formula
   desc 'CSDP is a library of routines that implements a predictor corrector variant of the semidefinite programming algorithm of Helmberg, Rendl, Vanderbei, and Wolkowicz'
   homepage 'https://projects.coin-or.org/Csdp'
-  url 'https://github.com/coin-or/Csdp/archive/releases/6.1.1.tar.gz'
-  sha256 'd4d67dc289e49d113af85fab1ba8dd6929f4d7d53d8234e831498e6642b63a96'
+  url 'https://github.com/coin-or/Csdp/archive/releases/6.2.0.tar.gz'
+  sha256 '3d341974af1f8ed70e1a37cc896e7ae4a513375875e5b46db8e8f38b7680b32f'
 
-  depends_on 'gcc'
-
-  fails_with :clang do
-    build 1001
-    cause "library not found for -lgfortran"
-  end
+  depends_on "gcc"
 
   fails_with :clang do
-    build 900
-    cause "library not found for -lgfortran"
+    cause "symbol(s) not found"
   end
+
+  patch :DATA
 
   def install
     system "make"
@@ -26,3 +22,18 @@ class Csdp < Formula
     (include/"csdp").install Dir["include/*.h"]
   end
 end
+
+__END__
+diff --git a/Makefile b/Makefile
+index 3430806..e0faf9c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -15,7 +15,7 @@ export CFLAGS=-m64 -march=native -mtune=native -Ofast -fopenmp -ansi -Wall -DBIT
+ #
+ # LIBS settings for 64 bit Linux/unix systems.
+ #
+-export LIBS=-static -L../lib -lsdp -llapack -lblas -lm
++export LIBS=-L../lib -lsdp -llapack -lblas -lm
+ #
+ #
+ # On most systems, this should handle everything.
