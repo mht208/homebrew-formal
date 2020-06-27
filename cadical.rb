@@ -2,8 +2,9 @@ require 'formula'
 
 class Cadical < Formula
   homepage 'https://github.com/arminbiere/cadical'
-  url 'https://github.com/arminbiere/cadical/archive/sc18.tar.gz'
-  sha256 'cac42428f6562ab5000bc7e74da3ce503a43f6653df542433bf150000d022096'
+  version '1.3.0'
+  url 'https://github.com/arminbiere/cadical/archive/rel-1.3.0.tar.gz'
+  sha256 '8577c0cbf34eeff6d455e34eb489aae52a0b97b3ef1d02d0c7d2e8a82b572c1b'
   desc 'a SAT solver'
 
   def install
