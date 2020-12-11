@@ -26,13 +26,13 @@ class EProver < Formula
 
   option 'with-doc', 'Install additional documentations (LaTeX is required)'
 
-  depends_on TexInstalled.new if build.include? 'with-doc'
+  depends_on TexInstalled.new if build.with? 'with-doc'
 
   def install
     system "./configure", "--prefix=#{prefix}", "--man-prefix=#{man1}"
     system "make"
     system "make install"
-    if build.include? 'with-doc'
+    if build.with? 'with-doc'
       ENV.j1
       system "make documentation"
       doc.install 'DOC/eprover.pdf'

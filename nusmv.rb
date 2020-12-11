@@ -8,7 +8,7 @@ class Nusmv < Formula
   option 'with-zchaff', 'Build with zchaff'
 
   depends_on 'wget'
-  if build.include? "with-zchaff"
+  if build.with? "with-zchaff"
     depends_on 'zchaff'
   end
 
