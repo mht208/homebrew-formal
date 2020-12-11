@@ -2,7 +2,7 @@ require 'formula'
 
 class Abc < Formula
   homepage 'http://www.eecs.berkeley.edu/~alanmi/abc/'
-  url 'https://bitbucket.org/alanmi/abc/get/192d4ce70b5e.zip', :using => CurlDownloadStrategy
+  url 'https://bitbucket.org/alanmi/abc/get/192d4ce70b5e.zip'
   version '192d4ce70b5e'
   sha256 'ca51ed3ecc5b10bdbd9494250fb7991dfcd7ddc83cd9cdfba925926f6a7d02d4'
 

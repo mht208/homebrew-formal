@@ -5,7 +5,7 @@ class Batteries < Formula
   url 'https://forge.ocamlcore.org/frs/download.php/1363/batteries-2.2.tar.gz'
   sha256 '7a7139ffa0c0da356a3be63a1024eb15f15eaf6d396b999565e77f77ca789c7c'
 
-  depends_on 'objective-caml'
+  depends_on 'ocaml'
   depends_on 'ocaml-findlib'
 
   def install

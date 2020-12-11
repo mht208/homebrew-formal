@@ -21,7 +21,6 @@ class Yices < Formula
   url 'http://yices.csl.sri.com/cgi-bin/yices2-newnewlicense.cgi?file=yices-2.5.1-x86_64-apple-darwin15.6.0-static-gmp.tar.gz',
       :using => YicesDownloadStrategy
   sha256 '15fd2c11072acd7500d0f79a772cd7c252b2ce182f4ee6709997a553035c2b52'
-  version '2.5.1'
 
   def install
     system "./install-yices #{prefix}"

@@ -16,7 +16,6 @@ end
 class Prism < Formula
   homepage 'http://www.prismmodelchecker.org'
   url 'prism-4.3.1-src.tar.gz', :using => PrismDownloadStrategy
-  version '4.3.1'
   sha256 'c2305b546ddc6619131f0aa9224c64d0f1ada04cebb07b25d1a7ea1aa82f12e8'
 
   def install

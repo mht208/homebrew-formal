@@ -34,7 +34,7 @@ class Nusmv < Formula
               "--enable-minisat",
               "--with-minisat-libdir=../MiniSat/minisat",
               "--with-minisat-incdir=../MiniSat/minisat"]
-      if build.include? 'with-zchaff'
+      if build.with? 'with-zchaff'
         args << ["--enable-zchaff",
                  "--with-zchaff-libdir=#{HOMEBREW_PREFIX}/lib/zchaff",
                  "--with-zchaff-incdir=#{HOMEBREW_PREFIX}/include/zchaff"]

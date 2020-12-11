@@ -9,7 +9,7 @@ class Lean < Formula
   depends_on "gmp"
   depends_on "mpfr"
   depends_on "lua"
-  depends_on "google-perftools"
+  depends_on "gperftools"
   depends_on "boost"
 
   option "with-debug", "Build debug version"
