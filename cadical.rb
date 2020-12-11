@@ -10,6 +10,8 @@ class Cadical < Formula
     system './configure'
     system 'make'
     bin.install 'build/cadical'
+    lib.install 'build/libcadical.a'
+    (include/'cadical').install 'src/cadical.hpp'
   end
 
 end
