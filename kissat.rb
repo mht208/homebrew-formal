@@ -11,6 +11,8 @@ class Kissat < Formula
     system './configure'
     system 'make'
     bin.install 'build/kissat'
+    lib.install 'build/libkissat.a'
+    (include/'kissat').install 'src/kissat.h'
   end
 
 end
