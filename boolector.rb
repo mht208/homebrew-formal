@@ -24,6 +24,7 @@ class Boolector < Formula
     venv_root = libexec/"venv"
     xy = Language::Python.major_minor_version "python3"
     ENV.prepend_create_path "PYTHONPATH", "#{venv_root}/lib/python#{xy}/site-packages"
+    ENV.prepend_path "PATH", "#{venv_root}/bin"
     venv = virtualenv_create(venv_root, "python3")
     venv.pip_install resource("Cython")
 
