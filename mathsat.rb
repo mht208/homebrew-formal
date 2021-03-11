@@ -2,9 +2,9 @@ require 'formula'
 
 class Mathsat < Formula
   homepage 'http://mathsat.fbk.eu/index.html'
-  url 'http://mathsat.fbk.eu/download.php?file=mathsat-5.5.2-darwin-libcxx-x86_64.tar.gz'
-  version '5.5.2'
-  sha256 'a0a46c99fb100c3303d2fbca0caee9f274315191fc90b322b02df84ffe210350'
+  url 'https://mathsat.fbk.eu/release/mathsat-5.6.5-darwin-libcxx-x86_64.tar.gz'
+  version '5.6.5'
+  sha256 'bf13877df67e1a9529474644de2999ba3b5e314f82a8790138e4ddd5c5cd5bfa'
 
   depends_on 'gmp'
 
