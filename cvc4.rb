@@ -4,8 +4,8 @@ class Cvc4 < Formula
   include Language::Python::Virtualenv
 
   homepage 'http://cvc4.cs.nyu.edu'
-  url 'https://github.com/CVC4/CVC4/archive/1.8.tar.gz'
-  sha256 '27de80c14e1c5f9e2aa4ea75566fd0b7ff2093247516d725fa22c599a6b9bf37'
+  url 'https://github.com/CVC4/CVC4-archived/archive/refs/tags/1.8.tar.gz'
+  sha256 '80fd10d5e4cca56367fc5398ba0117a86d891e0b9b247a97cd981fe02e8167f5'
 
   depends_on "coreutils" => :build
   depends_on "cmake" => :build
@@ -29,7 +29,7 @@ class Cvc4 < Formula
     venv.pip_install resource("toml")
 
     system "pip3", "install", "toml"
-    system "./contrib/get-antlr-3.4"
+    system "MACHINE_TYPE=\"x86_64\" ./contrib/get-antlr-3.4"
     system "./contrib/get-symfpu"
     system "./contrib/get-cadical"
     system "./contrib/get-kissat"
