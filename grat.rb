@@ -9,6 +9,7 @@ class Grat < Formula
 
   depends_on 'mlton'
   depends_on 'cmake'
+  depends_on 'boost'
 
   resource 'gratgen' do
     url 'https://www21.in.tum.de/~lammich/grat/gratgen.tgz'
