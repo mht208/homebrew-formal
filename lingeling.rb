@@ -25,7 +25,9 @@ class Lingeling < Formula
     end
 
     args = []
-    args << ((build.with? 'druplig') ? '--druplig=./druplig' : '')
+    if build.with? 'druplig' then
+      args << '--druplig=./druplig'
+    end
     system "./configure.sh", *args
     system "make"
     bin.install "ilingeling", "lglddtrace", "lglmbt", "lgluntrace",
