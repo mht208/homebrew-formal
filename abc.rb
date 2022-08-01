@@ -2,9 +2,11 @@ require 'formula'
 
 class Abc < Formula
   homepage 'http://www.eecs.berkeley.edu/~alanmi/abc/'
-  url 'https://bitbucket.org/alanmi/abc/get/192d4ce70b5e.zip'
-  version '192d4ce70b5e'
-  sha256 'ca51ed3ecc5b10bdbd9494250fb7991dfcd7ddc83cd9cdfba925926f6a7d02d4'
+  head 'https://github.com/berkeley-abc/abc',
+      :revision => "a9237f50ea01efdd62f86d334a38ffbe80a3d141",
+      :using => :git
+  version "a9237f5"
+  sha256 '2317424ff4b065e0eeee0d80807acc36889a1f3c2f976567e08e0c12d331c3a1'
 
   def install
     system "make"
