@@ -4,7 +4,7 @@ class Cpachecker < Formula
   desc 'CPAchecker is a tool for configurable software verification.'
   homepage 'http://cpachecker.sosy-lab.org'
   url 'https://cpachecker.sosy-lab.org/CPAchecker-2.2-unix.zip'
-  sha256 'https://cpachecker.sosy-lab.org/CPAchecker-2.2-unix.zip'
+  sha256 '24d730157362165073fe2c0f88cb0bf7c2a96d43d970342f3b468b8d6d95af62'
 
   def install
     File.open("cpachecker", "w") { |f|
