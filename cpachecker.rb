@@ -3,7 +3,7 @@ require 'formula'
 class Cpachecker < Formula
   desc 'CPAchecker is a tool for configurable software verification.'
   homepage 'http://cpachecker.sosy-lab.org'
-  url 'https://svn.sosy-lab.org/software/cpachecker/tags/cpachecker-1.7/'
+  url 'https://svn.sosy-lab.org/software/cpachecker/tags/cpachecker-2.2/'
 
   depends_on 'ant'
 
@@ -16,8 +16,8 @@ class Cpachecker < Formula
     File.chmod(0755, "cpachecker")
     system "ant jar"
     bin.install "cpachecker"
-    (share/'cpachecker').install "Copyright.txt", "License_Apache-2.0.txt",
-                                 "NEWS.txt", "README.md", "config",
+    (share/'cpachecker').install "Copyright.txt", "LICENSE",
+                                 "NEWS.md", "README.md", "config",
                                  "cpachecker.jar", "doc", "lib",
                                  "scripts"
     ohai <<-EOS.undent
