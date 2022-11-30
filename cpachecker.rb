@@ -13,7 +13,7 @@ class Cpachecker < Formula
     }
     File.chmod(0755, "cpachecker")
     bin.install "cpachecker"
-    (share/'cpachecker').install "Authors.txt", "LICENSE",
+    (share/'cpachecker').install "Authors.md", "LICENSE",
                                  "NEWS.md", "README.md", "config",
                                  "cpachecker.jar", "doc", "lib",
                                  "scripts"
