@@ -17,9 +17,9 @@ class Cpachecker < Formula
                                  "NEWS.md", "README.md", "config",
                                  "cpachecker.jar", "doc", "lib",
                                  "scripts"
-    ohai <<-EOS.undent
-        CPAchecker is installed. But you may need to install
-        MathSAT5, JavaSMT, and mathsat5j bindings to run it.
+    ohai <<-EOS
+CPAchecker is installed. But you may need to install
+MathSAT5, JavaSMT, and mathsat5j bindings to run it.
       EOS
   end
 end
