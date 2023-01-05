@@ -2,8 +2,8 @@ require 'formula'
 
 class Automaton < Formula
   homepage 'http://www.brics.dk/automaton/'
-  url 'http://www.brics.dk/~amoeller/automaton/automaton-1.11-8.tar.gz'
-  sha256 '0a43f236cf59584ac4b2e9464c067458eae9a10899116e5c485944733976a1c0'
+  url 'https://www.brics.dk/automaton/automaton-1.12-4.tar.gz'
+  sha256 '48da157494429efe487dba4047240e60e622e7df2194ffe3eadf38fa93b46f18'
 
   option 'with-doc', 'Install documentation'
 
