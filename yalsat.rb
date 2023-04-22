@@ -3,8 +3,8 @@ require 'formula'
 class Yalsat < Formula
   desc 'Yet Another Local Search Solver'
   homepage 'http://fmv.jku.at/yalsat/'
-  url 'http://fmv.jku.at/yalsat/yalsat-03s.zip'
-  sha256 'bf43b81e06e2ef618c615f8402258d163c79f3c3c9616f4b7f317cbbb6217d87'
+  url 'http://fmv.jku.at/yalsat/yalsat-03v.zip'
+  sha256 '596ad9eb729ddfd67c2256adb20ff8d4d9d7018004d838f6b4e449b8b5be426a'
 
   def install
     system "./configure.sh"

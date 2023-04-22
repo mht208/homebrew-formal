@@ -3,9 +3,9 @@ require 'formula'
 class Vampire < Formula
   homepage 'https://vprover.github.io'
   desc "Vampire is an automatic theorem prover for first-order logic."
-  url 'https://github.com/vprover/vampire/archive/refs/tags/v4.6.1.tar.gz'
-  version '4.6.1'
-  sha256 '68c61db1085d4aa55b94012533a9fc779ae858ffcc1df4a84312f48a8a31902a'
+  url 'https://github.com/vprover/vampire/archive/refs/tags/v4.7.tar.gz'
+  version '4.7'
+  sha256 '330e8bc0a2e10709d41f48b25963017a9d6f527d3ffc6b7b4d4c306b6a5d1da2'
 
   depends_on 'cmake'
 
