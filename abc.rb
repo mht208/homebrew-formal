@@ -3,9 +3,9 @@ require 'formula'
 class Abc < Formula
   homepage 'http://www.eecs.berkeley.edu/~alanmi/abc/'
   head 'https://github.com/berkeley-abc/abc',
-      :revision => "a9237f50ea01efdd62f86d334a38ffbe80a3d141",
+      :revision => "3c4c558",
       :using => :git
-  version "a9237f5"
+  version "3c4c558"
   sha256 '2317424ff4b065e0eeee0d80807acc36889a1f3c2f976567e08e0c12d331c3a1'
 
   def install
@@ -18,7 +18,7 @@ class Abc < Formula
     lib.install "libabc.dylib"
     (include/'abc').install Dir['include/src/*']
     (share/'abc/scripts').install "abc.rc"
-    ohai "The abc resource file has been installed to #{share}/abc/scripts/abc.rc. You may create a symbolic link ~/.abc.rc to the resource file such that alias commands can be used."
+    ohai "The abc resource file has been installed to #{share}/abc/scripts/abc.rc."
   end
 
 end
