@@ -2,9 +2,9 @@ require 'formula'
 
 class Mathsat < Formula
   homepage 'http://mathsat.fbk.eu/index.html'
-  url 'https://mathsat.fbk.eu/release/mathsat-5.6.9-osx.tar.gz'
-  version '5.6.9'
-  sha256 '043af0f6501c3adb0c75702282925a72b6ca148b2b2e20b2962e875cad6c158a'
+  url 'https://mathsat.fbk.eu/release/mathsat-5.6.10-osx.tar.gz'
+  version '5.6.10'
+  sha256 '74f648da93bcd927bcb4f064bdd88174e8469de6d2fd38077c12178c2622e104'
 
   depends_on 'gmp'
   depends_on 'python'
@@ -62,3 +62,4 @@ class Mathsat < Formula
     EOS
   end
 end
+
