@@ -1,8 +1,9 @@
 class Aiger < Formula
   desc "Format, library and set of utilities for And-Inverter Graphs"
   homepage "http://fmv.jku.at/aiger/"
-  url "http://fmv.jku.at/aiger/aiger-1.9.9.tar.gz"
-  sha256 "1e50d3db36f5dc5ed0e57aa4c448b9bcf82865f01736dde1f32f390b780350c7"
+  version "1.9.19"
+  url "https://github.com/arminbiere/aiger/archive/refs/tags/rel-1.9.19.tar.gz"
+  sha256 "ddf5fd8ee3fa1d7f1f1a8a93419e0c47a314125e517f3dea422b8580e0de7d0b"
 
   resource "lingeling" do
     url "https://github.com/arminbiere/lingeling",
