@@ -2,12 +2,14 @@ require 'formula'
 
 class Mathsat < Formula
   homepage 'http://mathsat.fbk.eu/index.html'
-  url 'https://mathsat.fbk.eu/release/mathsat-5.6.10-osx.tar.gz'
-  version '5.6.10'
-  sha256 '74f648da93bcd927bcb4f064bdd88174e8469de6d2fd38077c12178c2622e104'
+  url 'https://mathsat.fbk.eu/release/mathsat-5.6.11-osx.tar.gz'
+  version '5.6.11'
+  sha256 'c31aeb911310861bfbf480f4fc8e928080ff6da21e490f0ed10a5c2967450ca9'
 
   depends_on 'gmp'
-  depends_on 'python'
+  depends_on 'python@3'
+  depends_on 'python-setuptools'
+
 
   def install
     pyver = `python3 --version 2>&1 | awk '{print $2}'`.chomp.gsub(/([0-9]+).([0-9]+).([0-9]+)/, '\1.\2')
@@ -15,7 +17,7 @@ class Mathsat < Formula
 
     # Compile Python bindings.
     Dir.chdir 'python' do
-      system "python3 setup.py build"
+      system "python setup.py build"
     end
     mkdir_p "#{pylocal}"
     pylocal.install "python/mathsat.py", Dir["python/build/lib*/_mathsat*.so"]
@@ -39,7 +41,8 @@ class Mathsat < Formula
       system "sed -i.bak -e 's,soname,install_name,g' compile.sh"
       system "sed -i.bak -e 's,linux,darwin,g' compile.sh"
       system "sed -i.bak -e 's,.so,.dylib,g' compile.sh"
-      system "./compile.sh"
+      system "sed -i.bak -e 's,CC  -pthread,CC -Wno-int-conversion -pthread,g' compile.sh"
+      system "./compile.sh || (cat compile.log && false)"
       lib.install 'libmathsatj.dylib', 'mathsat.jar'
     end
     File.open("mathsatj-compile", "w") { |f|
