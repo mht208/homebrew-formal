@@ -1,48 +1,50 @@
-require 'formula'
-
 class Nusmv < Formula
-  homepage 'http://nusmv.fbk.eu'
-  url 'http://nusmv.fbk.eu/distrib/NuSMV-2.5.4.tar.gz'
-  sha256 '3c250624cba801b1f62f50733f9507b0f3b3ca557ce1cd65956178eb273f1bdf'
+  env :std
+  include Language::Python::Virtualenv
+  desc "Software tool for the formal verification of finite state systems"
+  homepage "http://nusmv.fbk.eu"
+  url "https://nusmv.fbk.eu/distrib/NuSMV-2.6.0.tar.gz"
+  sha256 "dba953ed6e69965a68cd4992f9cdac6c449a3d15bf60d200f704d3a02e4bbcbb"
 
-  option 'with-zchaff', 'Build with zchaff'
+  option "with-zchaff", "Build with zchaff support"
 
-  depends_on 'wget'
-  if build.with? "with-zchaff"
-    depends_on 'zchaff'
-  end
+  depends_on "cmake" => :build
+  depends_on "pyenv" => :build
+  depends_on "zlib" => :build
+  depends_on "mht208/formal/cudd"
+  depends_on "wget"
 
   def install
-    ENV.j1
-
-    ohai 'Compile CUDD'
-    Dir.chdir 'cudd-2.4.1.1' do
-      system "make -f Makefile_os_x_64bit"
+    ohai "Install Python 2 with pyenv"
+    with_env(
+      CFLAGS:  "-I#{HOMEBREW_PREFIX}/opt/zlib/include",
+      LDFLAGS: "-L#{HOMEBREW_PREFIX}/opt/zlib/lib",
+    ) do
+      system "pyenv", "install", "2.7.18", "-s"
     end
+    python_path = `pyenv prefix 2.7.18`.chomp
 
-    ohai 'Compile MiniSat'
-    Dir.chdir 'MiniSat' do
-      ENV['CXX'] = "g++"
-      system 'sh build.sh'
-    end
+    ohai "Compile NuSMV"
+    Dir.chdir "nusmv" do
+      mkdir_p "build"
+      Dir.chdir "build" do
+        args = ["..", "-DPYTHON_EXECUTABLE=#{python_path}/bin/python"]
+        args.push("-DENABLE_ZCHAFF=ON") if build.with? "zchaff"
+        system "cmake", *args
 
-    ohai 'Compile NuSMV'
-    Dir.chdir 'nusmv' do
-      args = ["--disable-debug",
-              "--disable-dependency-tracking",
-              "--prefix=#{prefix}",
-              "--enable-minisat",
-              "--with-minisat-libdir=../MiniSat/minisat",
-              "--with-minisat-incdir=../MiniSat/minisat"]
-      if build.with? 'with-zchaff'
-        args << ["--enable-zchaff",
-                 "--with-zchaff-libdir=#{HOMEBREW_PREFIX}/lib/zchaff",
-                 "--with-zchaff-incdir=#{HOMEBREW_PREFIX}/include/zchaff"]
+        if build.with? "zchaff"
+          ENV.deparallelize do
+            system "make"
+          end
+        else
+          system "make"
+        end
+        Dir.chdir "bin" do
+          bin.install "ltl2smv"
+          bin.install "NuSMV"
+        end
+        Dir["lib/*.a"] { |f| lib.install f }
       end
-      system "./configure", *args
-      system 'make'
-      system 'make install'
     end
   end
-
 end
