@@ -1,36 +1,48 @@
-require 'formula'
+require "macho"
 
 class Mathsat < Formula
-  homepage 'http://mathsat.fbk.eu/index.html'
-  url 'https://mathsat.fbk.eu/release/mathsat-5.6.11-osx.tar.gz'
-  version '5.6.11'
-  sha256 'c31aeb911310861bfbf480f4fc8e928080ff6da21e490f0ed10a5c2967450ca9'
+  desc "Efficient Satisfiability Modulo Theories (SMT) solver"
+  homepage "http://mathsat.fbk.eu/index.html"
+  url "https://mathsat.fbk.eu/release/mathsat-5.6.11-osx.tar.gz"
+  sha256 "c31aeb911310861bfbf480f4fc8e928080ff6da21e490f0ed10a5c2967450ca9"
 
-  depends_on 'gmp'
-  depends_on 'python@3'
-  depends_on 'python-setuptools'
-
+  depends_on "gmp"
+  depends_on "python-setuptools"
+  depends_on "python@3"
 
   def install
     pyver = `python3 --version 2>&1 | awk '{print $2}'`.chomp.gsub(/([0-9]+).([0-9]+).([0-9]+)/, '\1.\2')
     pylocal = (lib/"python#{pyver}/site-packages")
-
+    mkdir_p pylocal.to_s
     # Compile Python bindings.
-    Dir.chdir 'python' do
-      system "python setup.py build"
+    Dir.chdir "python" do
+      system "python", "setup.py", "build"
+      Dir["build/lib*/_mathsat*.so"].each do |so_name|
+        MachO::Tools.change_install_name(
+          so_name,
+          "/Users/alb/src/mathsat_release/build/libmathsat.dylib",
+          "@rpath/libmathsat.dylib",
+        )
+      end
     end
-    mkdir_p "#{pylocal}"
     pylocal.install "python/mathsat.py", Dir["python/build/lib*/_mathsat*.so"]
 
     # Install MathSat.
     Dir.chdir "lib" do
-      system "install_name_tool -id @rpath/libmathsat.dylib libmathsat.dylib"
-      system "install_name_tool -change /opt/local/lib/libgmp.10.dylib @rpath/libgmp.10.dylib libmathsat.dylib"
+      MachO.open("libmathsat.dylib") do |dylib|
+        dylib.change_dylib_id("@rpath/libmathsat.dylib")
+        dylib.change_install_name(
+          "/opt/local/lib/libgmp.10.dylib", "@rpath/libgmp.10.dylib"
+        )
+        dylib.change_install_name(
+          "/Users/alb/src/mathsat_release/build/libmathsat.dylib", "@rpath/libmathsat.dylib"
+        )
+      end
     end
-    bin.install 'bin/mathsat'
-    include.install 'include/mathsat.h', 'include/mathsatll.h', 'include/msatexistelim.h'
-    lib.install 'lib/libmathsat.a', 'lib/libmathsat.dylib'
-    (share/'mathsat').install 'configurations', 'examples'
+    bin.install "bin/mathsat"
+    include.install "include/mathsat.h", "include/mathsatll.h", "include/msatexistelim.h"
+    lib.install "lib/libmathsat.a", "lib/libmathsat.dylib"
+    (share/"mathsat").install "configurations", "examples"
 
     # Compile and install Java library.
     Dir.chdir "java" do
@@ -43,16 +55,24 @@ class Mathsat < Formula
       system "sed -i.bak -e 's,.so,.dylib,g' compile.sh"
       system "sed -i.bak -e 's,CC  -pthread,CC -Wno-int-conversion -pthread,g' compile.sh"
       system "./compile.sh || (cat compile.log && false)"
-      lib.install 'libmathsatj.dylib', 'mathsat.jar'
+      MachO::Tools.change_install_name(
+        "libmathsatj.dylib",
+        "/Users/alb/src/mathsat_release/build/libmathsat.dylib",
+        "@rpath/libmathsat.dylib",
+      )
+      MachO.codesign!("libmathsatj.dylib") if Hardware::CPU.arm?
+      lib.install "libmathsatj.dylib"
+      libexec.install "mathsat.jar"
     end
-    File.open("mathsatj-compile", "w") { |f|
+    File.open("mathsatj-compile", "w") do |f|
       f.puts("#!/bin/sh\n")
       f.puts("`/usr/libexec/java_home`/bin/javac -cp #{HOMEBREW_PREFIX}/lib/mathsat.jar \"$@\"")
-    }
-    File.open("mathsatj-run", "w") { |f|
+    end
+    File.open("mathsatj-run", "w") do |f|
       f.puts("#!/bin/sh\n")
-      f.puts("DYLD_LIBRARY_PATH=.:#{HOMEBREW_PREFIX}/lib `/usr/libexec/java_home`/bin/java -cp .:#{HOMEBREW_PREFIX}/lib/mathsat.jar \"$@\"")
-    }
+      f.puts("DYLD_LIBRARY_PATH=.:#{HOMEBREW_PREFIX}/lib `/usr/libexec/java_home`/bin/java ")
+      f.puts("-cp .:#{HOMEBREW_PREFIX}/lib/mathsat.jar \"$@\"")
+    end
     bin.install "mathsatj-compile", "mathsatj-run"
 
     ohai "Additional scripts are installed to compile and run Java files."
@@ -65,4 +85,3 @@ class Mathsat < Formula
     EOS
   end
 end
-
