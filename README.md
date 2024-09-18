@@ -25,7 +25,7 @@ Thus, the new plan is to:
 * Equip the repository with a LICENSE, which a) fully acknowledges mht208's
   work and b) empowers new contributors to use and modify the tap;
 * Add instructions for potential contributors to foster collaboration and
-  ensure high-quality formulas;
-* Progressively update old formulas so they comply with those same quality
+  ensure high-quality formulae;
+* Progressively update old formulae so they comply with those same quality
   guidelines.
 
