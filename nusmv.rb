@@ -1,6 +1,5 @@
 class Nusmv < Formula
   env :std
-  include Language::Python::Virtualenv
   desc "Software tool for the formal verification of finite state systems"
   homepage "http://nusmv.fbk.eu"
   url "https://nusmv.fbk.eu/distrib/NuSMV-2.6.0.tar.gz"
