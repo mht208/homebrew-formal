@@ -1,18 +1,31 @@
-# Lou1306 Formal
+# homebrew-formal (reloaded)
 
-## How do I install these formulae?
+This is a fork of [`mht208/formal`](https://github.com/mht208/homebrew-formal),
+a Homebrew tap for formal methods tools that are missing in the official
+Homebrew repository.
 
-`brew install lou1306/formal/<formula>`
+# Installation
 
-Or `brew tap lou1306/formal` and then `brew install <formula>`.
+Install Homebrew and then execute the following command:
 
-Or, in a [`brew bundle`](https://github.com/Homebrew/homebrew-bundle) `Brewfile`:
+  $ brew tap lou1306/formal
 
-```ruby
-tap "lou1306/formal"
-brew "<formula>"
-```
+# A note on this fork
 
-## Documentation
+I am grateful to mht208 for their great work on the original tap, and for
+accepting my pull requests in the past. At the moment I still plan to keep this
+fork compatible with it, and send pull requests upstream regularly.
 
-`brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).
+At the same time, I want to build a modern, dependable tap for macOS users
+interested in formal methods. This requires a series of extensive changes that
+the PR system of contribution cannot accommodate with ease.
+
+Thus, the new plan is to:
+
+* Equip the repository with a LICENSE, which a) fully acknowledges mht208's
+  work and b) empowers new contributors to use and modify the tap;
+* Add instructions for potential contributors to foster collaboration and
+  ensure high-quality formulae;
+* Progressively update old formulae so they comply with those same quality
+  guidelines.
+
