@@ -1,4 +1,4 @@
-name: brew test-bot
+name: brew audit
 
 on:
   pull_request:
